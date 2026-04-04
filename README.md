@@ -40,11 +40,33 @@ python3 eval.py \
   --ollama-timeout-s 180
 ```
 
+Run the two-hat matrix across OpenRouter free vision models:
+
+```bash
+export OPENROUTER_API_KEY=...
+python3 run_matrix.py \
+  --free-openrouter-vision \
+  --output results/openrouter-free-vision.json
+```
+
+Add frontier models explicitly:
+
+```bash
+export OPENROUTER_API_KEY=...
+python3 run_matrix.py \
+  --free-openrouter-vision \
+  --model openrouter/openai/gpt-4o \
+  --model openrouter/anthropic/claude-sonnet-4 \
+  --model openrouter/google/gemini-2.5-pro \
+  --output results/two-hat-matrix.json
+```
+
 ## Repo Layout
 
 - `dataset/items.jsonl` — benchmark item manifest
 - `dataset/images/` — local benchmark images
 - `eval.py` — evaluation harness
+- `run_matrix.py` — batch runner for free and selected frontier models
 
 ## License
 

@@ -1,0 +1,215 @@
+{
+  "dataset": "dataset/items.jsonl",
+  "results": [
+    {
+      "model": "google/gemma-3-12b-it:free",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.0,
+      "latency_mean_ms": 1553,
+      "latency_p50_ms": 1553,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "[ERROR: HTTP Error 429: Too Many Requests]",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 1553
+        }
+      ],
+      "model_ref": "openrouter/google/gemma-3-12b-it:free"
+    },
+    {
+      "model": "google/gemma-3-27b-it:free",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.0,
+      "latency_mean_ms": 909,
+      "latency_p50_ms": 909,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "[ERROR: HTTP Error 429: Too Many Requests]",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 909
+        }
+      ],
+      "model_ref": "openrouter/google/gemma-3-27b-it:free"
+    },
+    {
+      "model": "google/gemma-3-4b-it:free",
+      "total_items": 1,
+      "correct": 1,
+      "partial": 0,
+      "incorrect": 0,
+      "accuracy": 1.0,
+      "partial_credit_score": 1.0,
+      "latency_mean_ms": 3600,
+      "latency_p50_ms": 3600,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "The person in the image is wearing **two** hats:\n\n1.  A cowboy hat\n2.  A sailor hat",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 3600
+        }
+      ],
+      "model_ref": "openrouter/google/gemma-3-4b-it:free"
+    },
+    {
+      "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.0,
+      "latency_mean_ms": 8767,
+      "latency_p50_ms": 8767,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "To determine how many hats the person is wearing, observe the image: the person has one hat on their head. The other hat is being held up, not worn. Thus, the person is wearing 1 hat.\n",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 8767
+        }
+      ],
+      "model_ref": "openrouter/nvidia/nemotron-nano-12b-v2-vl:free"
+    },
+    {
+      "model": "openrouter/free",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.0,
+      "latency_mean_ms": 42938,
+      "latency_p50_ms": 42938,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "To determine how many hats the person is wearing, observe the image: the person has one cowboy hat on their head. The hat they are holding is not being worn. Thus, the number of hats worn is 1.\n",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 42938
+        }
+      ],
+      "model_ref": "openrouter/openrouter/free"
+    },
+    {
+      "model": "qwen/qwen3.6-plus:free",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 1,
+      "incorrect": 0,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.5,
+      "latency_mean_ms": 75005,
+      "latency_p50_ms": 75005,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "Based on the image, the person is wearing **one** hat.\n\nAlthough it might look like two at first glance, the cowboy is wearing a single hat on his head (with goggles on the brim) and is using his right hand to tip the brim of that same hat in a greeting gesture.",
+          "score": 0.5,
+          "score_label": "partial",
+          "latency_ms": 75005
+        }
+      ],
+      "model_ref": "openrouter/qwen/qwen3.6-plus:free"
+    },
+    {
+      "model": "openai/gpt-4o",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.0,
+      "latency_mean_ms": 2715,
+      "latency_p50_ms": 2715,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "The person is wearing one hat and holding another.",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 2715
+        }
+      ],
+      "model_ref": "openrouter/openai/gpt-4o"
+    },
+    {
+      "model": "anthropic/claude-sonnet-4.6",
+      "total_items": 1,
+      "correct": 1,
+      "partial": 0,
+      "incorrect": 0,
+      "accuracy": 1.0,
+      "partial_credit_score": 1.0,
+      "latency_mean_ms": 4071,
+      "latency_p50_ms": 4071,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "Looking at the image, the person is wearing **1 hat** (a cowboy hat on their head), while holding a **second cowboy hat** up in the air with their raised hand.\n\nSo they are actively **wearing 1 hat**, but there are **2 hats** visible in total.",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 4071
+        }
+      ],
+      "model_ref": "openrouter/anthropic/claude-sonnet-4.6"
+    },
+    {
+      "model": "anthropic/claude-opus-4.6",
+      "total_items": 1,
+      "correct": 1,
+      "partial": 0,
+      "incorrect": 0,
+      "accuracy": 1.0,
+      "partial_credit_score": 1.0,
+      "latency_mean_ms": 6773,
+      "latency_p50_ms": 6773,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "The person is wearing **2 hats** \u2014 one cowboy hat on his head (which appears to have goggles on it) and another hat being held up/waved in his raised hand.",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 6773
+        }
+      ],
+      "model_ref": "openrouter/anthropic/claude-opus-4.6"
+    },
+    {
+      "model": "google/gemini-2.5-pro",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.0,
+      "latency_mean_ms": 5575,
+      "latency_p50_ms": 5575,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "Based on the image, the person is **wearing one",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 5575
+        }
+      ],
+      "model_ref": "openrouter/google/gemini-2.5-pro"
+    }
+  ]
+}

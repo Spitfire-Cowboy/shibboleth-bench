@@ -5,6 +5,7 @@ import argparse
 import base64
 import json
 import mimetypes
+import os
 import re
 import statistics
 import sys
@@ -141,17 +142,72 @@ class OllamaAdapter:
         return data.get("response", "")
 
 
+class OpenRouterAdapter:
+    def __init__(self, model: str, api_key: str, timeout_s: int):
+        self.name = model
+        self.api_key = api_key
+        self.timeout_s = timeout_s
+
+    def query(self, image_path: str, prompt: str) -> str:
+        try:
+            img_bytes = Path(image_path).read_bytes()
+        except OSError as exc:
+            return f"[ERROR: cannot read image {image_path}: {exc}]"
+
+        mime = mimetypes.guess_type(image_path)[0] or "image/png"
+        data_url = f"data:{mime};base64,{base64.b64encode(img_bytes).decode('utf-8')}"
+        payload = {
+            "model": self.name,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {"type": "image_url", "image_url": {"url": data_url}},
+                    ],
+                }
+            ],
+            "max_tokens": 256,
+        }
+        req = urllib.request.Request(
+            "https://openrouter.ai/api/v1/chat/completions",
+            data=json.dumps(payload).encode("utf-8"),
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.api_key}",
+                "HTTP-Referer": "https://github.com/Spitfire-Cowboy/shibboleth-bench",
+                "X-Title": "shibboleth-bench",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=self.timeout_s) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+        except Exception as exc:  # noqa: BLE001
+            return f"[ERROR: {exc}]"
+
+        choices = data.get("choices") or []
+        if not choices:
+            return "[ERROR: empty choices in response]"
+        return ((choices[0].get("message") or {}).get("content")) or ""
+
+
 def build_adapter(model: str, host: str, think: str, timeout_s: int):
     if model == "dry-run":
         return DryRunAdapter()
-    if not model.startswith("ollama/"):
-        raise ValueError("Only dry-run and ollama/<model> are supported")
-    think_value = None
-    if think == "true":
-        think_value = True
-    elif think == "false":
-        think_value = False
-    return OllamaAdapter(model[len("ollama/"):], host, think_value, timeout_s)
+    if model.startswith("ollama/"):
+        think_value = None
+        if think == "true":
+            think_value = True
+        elif think == "false":
+            think_value = False
+        return OllamaAdapter(model[len("ollama/"):], host, think_value, timeout_s)
+    if model.startswith("openrouter/"):
+        api_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+        if not api_key:
+            raise ValueError("OPENROUTER_API_KEY is required for openrouter/<model>")
+        return OpenRouterAdapter(model[len("openrouter/"):], api_key, timeout_s)
+    raise ValueError("Only dry-run, ollama/<model>, and openrouter/<model> are supported")
 
 
 def evaluate(items: list[Item], adapter) -> RunResult:
