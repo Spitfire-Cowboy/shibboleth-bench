@@ -1,0 +1,286 @@
+{
+  "dataset": "dataset/items.jsonl",
+  "dataset_sha256": "8eeb9bae57d81c014516df62eef48fc9a11471214148cf4fdecd4e252a714d31",
+  "run_at": "2026-05-26T00:00:00+00:00",
+  "prompt_protocol": "structured-json-v1",
+  "run_method": "cowork-agent-sdk",
+  "notes": "Run via parallel Claude subagents reading images directly; not via eval.py harness. Dataset covers SB-001 to SB-010 (10 items).",
+  "results": [
+    {
+      "model": "claude-opus-4-6",
+      "model_ref": "anthropic/claude-opus-4-6",
+      "total_items": 10,
+      "correct": 10,
+      "partial": 0,
+      "incorrect": 0,
+      "accuracy": 1.0,
+      "partial_credit_score": 1.0,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "{\"answer\": \"two\", \"confidence\": \"certain\", \"notes\": \"Cowboy wears one hat on his head and holds a second hat in his raised hand.\"}",
+          "parsed_answer": "two",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-002",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Real stick figure wears one hat; the mirror shows two stacked hats.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-003",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Three buoys above the waterline, only two reflections shown below.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-004",
+          "response": "{\"answer\": \"six\", \"confidence\": \"certain\", \"notes\": \"Five raised digits plus one thumb on the side equals six fingers.\"}",
+          "parsed_answer": "six",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-005",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Sign displays 'P1Z7A?' which is not an English word.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-006",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Right side temple arm floats above the face, detached from the frame.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-007",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"The two posts cast shadows pointing inward toward each other, opposite directions.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-008",
+          "response": "{\"answer\": \"five\", \"confidence\": \"certain\", \"notes\": \"Five chairs visible around the oval table (one top, two upper sides, two lower).\"}",
+          "parsed_answer": "five",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-009",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"The C-shaped handle floats to the right, not touching the mug body.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-010",
+          "response": "{\"answer\": \"three\", \"confidence\": \"certain\", \"notes\": \"Three transparent drinking glasses lined up on the shelf.\"}",
+          "parsed_answer": "three",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        }
+      ]
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "model_ref": "anthropic/claude-sonnet-4-6",
+      "total_items": 10,
+      "correct": 10,
+      "partial": 0,
+      "incorrect": 0,
+      "accuracy": 1.0,
+      "partial_credit_score": 1.0,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "{\"answer\": \"two\", \"confidence\": \"certain\", \"notes\": \"One hat worn on head, one held raised in the hand.\"}",
+          "parsed_answer": "two",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-002",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Real figure wears one hat; mirror shows two stacked.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-003",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Three buoys above water, only two reflected below.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-004",
+          "response": "{\"answer\": \"six\", \"confidence\": \"certain\", \"notes\": \"Five fingers plus thumb = six visible fingers.\"}",
+          "parsed_answer": "six",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-005",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Sign reads 'P1Z7A?' — digits mixed with letters, not English.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-006",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Left arm attached normally; right arm floats disconnected.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-007",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Left post shadow goes right, right post shadow goes left — opposite directions.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-008",
+          "response": "{\"answer\": \"five\", \"confidence\": \"certain\", \"notes\": \"1 top-center, 1 upper-left, 1 upper-right, 1 lower-left, 1 lower-right.\"}",
+          "parsed_answer": "five",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-009",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Mug handle (C-shape) floats to the right, clearly detached from mug body.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-010",
+          "response": "{\"answer\": \"three\", \"confidence\": \"certain\", \"notes\": \"Three transparent drinking glasses visible on shelf.\"}",
+          "parsed_answer": "three",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        }
+      ]
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "model_ref": "anthropic/claude-haiku-4-5",
+      "total_items": 10,
+      "correct": 9,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.9,
+      "partial_credit_score": 0.9,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "{\"answer\": \"one\", \"confidence\": \"certain\", \"notes\": \"Saw one hat on person's head; did not count the second hat held in hand.\"}",
+          "parsed_answer": "one",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect"
+        },
+        {
+          "item_id": "SB-002",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Real figure has 1 hat, mirror shows 2 — mismatch detected.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-003",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"3 buoys above, 2 reflected below — mismatch detected.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-004",
+          "response": "{\"answer\": \"six\", \"confidence\": \"certain\", \"notes\": \"Counted 6 distinct finger shapes.\"}",
+          "parsed_answer": "six",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-005",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Sign reads 'P1Z7A?' — not readable English.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-006",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"One glasses arm detached/floating above the face.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-007",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Two posts cast shadows in opposite directions.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-008",
+          "response": "{\"answer\": \"five\", \"confidence\": \"certain\", \"notes\": \"5 chairs visible around the table.\"}",
+          "parsed_answer": "five",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-009",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Mug handle floating separately, not attached.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        },
+        {
+          "item_id": "SB-010",
+          "response": "{\"answer\": \"three\", \"confidence\": \"certain\", \"notes\": \"3 transparent glasses visible.\"}",
+          "parsed_answer": "three",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct"
+        }
+      ]
+    }
+  ]
+}

@@ -35,6 +35,15 @@ Additional OpenAI frontier snapshot:
 - `results/livefire-openai-gpt5x-2026-05-26.md`
 - `results/livefire-openai-gpt5x-2026-05-26.csv`
 
+Claude 10-item compatibility snapshot:
+- `results/claude-may-2026.json`
+- `results/claude-may-2026.md`
+
+OpenTimestamps sidecars:
+- `results/livefire-may-2026.json.ots`
+- `results/livefire-openai-gpt5x-2026-05-26.json.ots`
+- `results/claude-may-2026.json.ots`
+
 Artifacts:
 - `results/livefire-may-2026.json`
 - `results/livefire-may-2026.md`
@@ -170,6 +179,16 @@ This repo is intentionally small, which means the current results have real limi
 - passing Shibboleth does **not** imply general multimodal competence
 
 Treat it as a small benchmark, not a final verdict on overall model quality.
+
+## 🧠 Claude compatibility note
+
+The checked-in Claude snapshot currently covers only the original 10-item corpus:
+
+- `anthropic/claude-opus-4-6` — **10 / 10**
+- `anthropic/claude-sonnet-4-6` — **10 / 10**
+- `anthropic/claude-haiku-4-5` — **9 / 10**
+
+That snapshot was run via Cowork / Claude Agent tooling rather than the `eval.py` harness, so it is best read as a compatibility comparison rather than a perfect apples-to-apples harness run.
 
 ## 🛣️ Next steps
 

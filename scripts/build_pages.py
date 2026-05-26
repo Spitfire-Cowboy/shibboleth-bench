@@ -94,9 +94,14 @@ def main() -> None:
         ROOT / 'results' / 'livefire-may-2026.json',
         ROOT / 'results' / 'livefire-may-2026.md',
         ROOT / 'results' / 'livefire-may-2026.csv',
+        ROOT / 'results' / 'livefire-may-2026.json.ots',
         ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.json',
         ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.md',
         ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.csv',
+        ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.json.ots',
+        ROOT / 'results' / 'claude-may-2026.json',
+        ROOT / 'results' / 'claude-may-2026.md',
+        ROOT / 'results' / 'claude-may-2026.json.ots',
     ]:
         if src.exists():
             (RESULTS_OUT / src.name).write_bytes(src.read_bytes())
@@ -194,7 +199,7 @@ def main() -> None:
     <section class=\"section\">
       <h2>Artifacts</h2>
       <div class=\"grid cols-2\">
-        <article class=\"card\"><h3>Machine-readable results</h3><p><a href=\"results/livefire-may-2026.json\">May 2026 JSON snapshot</a><br><a href=\"results/livefire-may-2026.csv\">May 2026 CSV summary</a><br><a href=\"results/livefire-may-2026.md\">May 2026 Markdown summary</a><br><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.json\">OpenAI frontier JSON snapshot</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.csv\">OpenAI frontier CSV summary</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.md\">OpenAI frontier Markdown summary</a></p></article>
+        <article class=\"card\"><h3>Machine-readable results</h3><p><a href=\"results/livefire-may-2026.json\">May 2026 JSON snapshot</a><br><a href=\"results/livefire-may-2026.csv\">May 2026 CSV summary</a><br><a href=\"results/livefire-may-2026.md\">May 2026 Markdown summary</a><br><a href=\"results/livefire-may-2026.json.ots\">May 2026 OpenTimestamps proof</a><br><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.json\">OpenAI frontier JSON snapshot</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.csv\">OpenAI frontier CSV summary</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.md\">OpenAI frontier Markdown summary</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.json.ots\">OpenAI frontier OpenTimestamps proof</a><br><br><a href=\"results/claude-may-2026.json\">Claude 10-item JSON snapshot</a><br><a href=\"results/claude-may-2026.md\">Claude 10-item Markdown summary</a><br><a href=\"results/claude-may-2026.json.ots\">Claude OpenTimestamps proof</a></p></article>
         <article class=\"card\"><h3>Repository</h3><p><a href=\"https://github.com/Spitfire-Cowboy/shibboleth-bench\">View on GitHub</a></p></article>
       </div>
     </section>
