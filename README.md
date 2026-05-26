@@ -3,10 +3,10 @@
 A small benchmark for one narrow question: how do multimodal models answer this dataset of visual anomaly items?
 
 [![CI](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml)
-[![Pages](https://img.shields.io/badge/pages-live-7d3f1d)](https://spitfire-cowboy.github.io/shibboleth-bench/)
+[![Pages](https://img.shields.io/badge/pages-live-7d3f1d)](https://shibboleth.spitfirecowboy.com/)
 
 <p>
-  <a href="https://spitfire-cowboy.github.io/shibboleth-bench/">
+  <a href="https://shibboleth.spitfirecowboy.com/">
     <img src="dataset/images/two-hat-logo.png" alt="Two-hat cowboy benchmark image" width="420">
   </a>
 </p>
@@ -14,7 +14,7 @@ A small benchmark for one narrow question: how do multimodal models answer this 
 ## What it is
 
 - **Repo:** https://github.com/Spitfire-Cowboy/shibboleth-bench
-- **Benchmark site:** https://spitfire-cowboy.github.io/shibboleth-bench/
+- **Benchmark site:** https://shibboleth.spitfirecowboy.com/
 - **Dataset:** 14 benchmark items in `dataset/items.jsonl`
 - **Purpose:** compare checked-in model results on a small visual anomaly dataset
 

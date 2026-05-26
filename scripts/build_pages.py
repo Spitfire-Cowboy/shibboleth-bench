@@ -13,6 +13,7 @@ CLAUDE_RESULTS = ROOT / 'results' / 'claude-may-2026.json'
 SITE = ROOT / 'site'
 IMAGES_OUT = SITE / 'images'
 RESULTS_OUT = SITE / 'results'
+CUSTOM_DOMAIN = 'shibboleth.spitfirecowboy.com'
 
 PUBLISHED_RESULTS = [
     ROOT / 'results' / 'livefire-may-2026.json',
@@ -110,9 +111,20 @@ def item_status_class(label: str) -> str:
 
 def render_answer(item: dict) -> str:
     parsed = item.get('parsed_answer')
-    if parsed is None:
+    if parsed in (None, ''):
         return '—'
-    return html.escape(str(parsed))
+    if isinstance(parsed, (int, float)):
+        return html.escape(str(parsed))
+    text = str(parsed).strip()
+    if text.startswith('{') or text.startswith('['):
+        try:
+            data = json.loads(text)
+            if isinstance(data, dict) and 'answer' in data:
+                answer = data.get('answer')
+                return html.escape('—' if answer in (None, '') else str(answer))
+        except Exception:
+            return '—'
+    return html.escape(text)
 
 
 def build_item_results(dataset: list[dict], snapshots: list[tuple[str, dict]]) -> dict[str, list[str]]:
@@ -151,6 +163,8 @@ def main() -> None:
     for src in PUBLISHED_RESULTS:
         if src.exists():
             (RESULTS_OUT / src.name).write_bytes(src.read_bytes())
+
+    (SITE / 'CNAME').write_text(CUSTOM_DOMAIN + '\n', encoding='utf-8')
 
     snapshots = [
         ('main-14', harness),
@@ -208,8 +222,8 @@ def main() -> None:
   <meta name=\"description\" content=\"Static site for the Shibboleth benchmark dataset and checked-in result snapshots.\">
   <meta property=\"og:title\" content=\"Shibboleth Bench\">
   <meta property=\"og:description\" content=\"Dataset, benchmark items, and checked-in result snapshots for Shibboleth Bench.\">
-  <meta property=\"og:image\" content=\"https://spitfire-cowboy.github.io/shibboleth-bench/images/two-hat-logo.png\">
-  <meta property=\"og:url\" content=\"https://spitfire-cowboy.github.io/shibboleth-bench/\">
+  <meta property=\"og:image\" content=\"https://shibboleth.spitfirecowboy.com/images/two-hat-logo.png\">
+  <meta property=\"og:url\" content=\"https://shibboleth.spitfirecowboy.com/\">
   <meta name=\"twitter:card\" content=\"summary_large_image\">
   <script defer data-domain=\"spitfire-cowboy.github.io\" src=\"https://analytics.spitfirecowboy.com/js/script.js\"></script>
   <style>{CSS}</style>
