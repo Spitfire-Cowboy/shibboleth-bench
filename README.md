@@ -70,6 +70,14 @@ Artifacts:
 python3 eval.py --dry-run
 ```
 
+## Conductor workspaces
+
+This repo now ships a small shared Conductor config:
+
+- `conductor.json` creates a local virtualenv and installs `pytest` for workspace checks.
+- The run script rebuilds the static site and serves `site/` on `CONDUCTOR_PORT`.
+- No Spotlight setup is needed; this repo runs cleanly from ordinary isolated workspaces.
+
 ```bash
 export OPENAI_API_KEY=...
 export XAI_API_KEY=...
