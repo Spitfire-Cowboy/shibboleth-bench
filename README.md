@@ -140,9 +140,11 @@ The grader still falls back to freeform parsing when needed, but the preferred p
 - `dataset/images/` — benchmark images
 - `dataset/PROVENANCE.md` — asset provenance notes
 - `scripts/generate_synthetic_assets.py` — reproducible synthetic asset generator
+- `scripts/build_pages.py` — static GitHub Pages builder
 - `eval.py` — single-model runner and grading harness
 - `run_matrix.py` — multi-model batch runner
 - `results/` — checked-in benchmark snapshots
+- `site/` — generated GitHub Pages output
 - `tests/` — harness tests
 - `docs/edge-cases.md` — researched expansion targets for future benchmark items
 
@@ -196,3 +198,16 @@ See `docs/edge-cases.md` for the researched list.
 ## License
 
 Apache 2.0.
+
+## GitHub Pages
+
+The repo includes a static GitHub Pages site that publishes:
+- the current leaderboard
+- the benchmark item gallery
+- the checked-in May 2026 results artifacts
+
+Build it locally with:
+
+```bash
+python3 scripts/build_pages.py
+```
