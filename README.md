@@ -15,7 +15,7 @@ It is meant to cheaply filter out weak multimodal candidates before deeper testi
 ## 🌐 Public surface
 
 - **Repo:** https://github.com/Spitfire-Cowboy/shibboleth-bench
-- **Leaderboard + gallery:** https://spitfire-cowboy.github.io/shibboleth-bench/
+- **Benchmark site:** https://spitfire-cowboy.github.io/shibboleth-bench/
 - **Latest JSON snapshot:** `results/livefire-may-2026.json`
 - **Latest CSV snapshot:** `results/livefire-may-2026.csv`
 
@@ -29,7 +29,7 @@ It is meant to cheaply filter out weak multimodal candidates before deeper testi
   - OpenRouter
   - OpenAI
   - xAI
-- **GitHub Pages leaderboard:** live
+- **public benchmark site:** live
 - **scope:** narrow anomaly screening, not a broad leaderboard
 
 ## 🧪 Current May 2026 snapshot
@@ -155,11 +155,11 @@ The grader still falls back to freeform parsing when needed, but structured outp
 - `dataset/images/` — benchmark images
 - `dataset/PROVENANCE.md` — asset provenance notes
 - `scripts/generate_synthetic_assets.py` — reproducible synthetic asset generator
-- `scripts/build_pages.py` — static GitHub Pages builder
+- `scripts/build_pages.py` — static benchmark site builder
 - `eval.py` — single-model runner and grading harness
 - `run_matrix.py` — multi-model batch runner
 - `results/` — checked-in benchmark snapshots
-- `site/` — generated GitHub Pages output
+- `site/` — generated static site output
 - `tests/` — harness tests
 - `docs/edge-cases.md` — researched expansion targets
 
