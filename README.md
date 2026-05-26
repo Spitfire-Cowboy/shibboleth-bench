@@ -1,26 +1,26 @@
 # shibboleth-bench
 
-A benchmark for one narrow question: how do multimodal models answer this dataset of visual anomaly items?
+A small benchmark for one narrow question: how do multimodal models answer this dataset of visual anomaly items?
 
 [![CI](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml)
 [![Pages](https://img.shields.io/badge/pages-live-7d3f1d)](https://spitfire-cowboy.github.io/shibboleth-bench/)
 
-[![Two-hat cowboy benchmark image](dataset/images/two-hat-logo.png)](https://spitfire-cowboy.github.io/shibboleth-bench/)
+<p>
+  <a href="https://spitfire-cowboy.github.io/shibboleth-bench/">
+    <img src="dataset/images/two-hat-logo.png" alt="Two-hat cowboy benchmark image" width="420">
+  </a>
+</p>
 
-## 🔎 What it asks
-
-> How does this model answer these anomaly and discrete-object items?
-
-Shibboleth is a narrow benchmark, not a full evaluation stack. It compares models on a small set of benchmark items before deeper testing.
-
-## 🌐 Public surface
+## What it is
 
 - **Repo:** https://github.com/Spitfire-Cowboy/shibboleth-bench
 - **Benchmark site:** https://spitfire-cowboy.github.io/shibboleth-bench/
-- **Latest JSON snapshot:** `results/livefire-may-2026.json`
-- **Latest CSV snapshot:** `results/livefire-may-2026.csv`
+- **Dataset:** 14 benchmark items in `dataset/items.jsonl`
+- **Purpose:** compare checked-in model results on a small visual anomaly dataset
 
-## 🧪 Latest May 2026 snapshot
+## Current snapshots
+
+### Harness snapshot — 14 items
 
 | Model | Score | Misses |
 | --- | ---: | --- |
@@ -30,82 +30,45 @@ Shibboleth is a narrow benchmark, not a full evaluation stack. It compares model
 | `xai/grok-4.3` | 11 / 14 | `SB-001`, `SB-013`, `SB-014` |
 | `openai/gpt-5` | 7 / 14 | `SB-001`, `SB-004`, `SB-005`, `SB-011`, `SB-012`, `SB-013`, `SB-014` |
 
-Additional OpenAI frontier snapshot:
-- `results/livefire-openai-gpt5x-2026-05-26.json`
-- `results/livefire-openai-gpt5x-2026-05-26.md`
-- `results/livefire-openai-gpt5x-2026-05-26.csv`
-
-Claude 10-item compatibility snapshot:
-- `results/claude-may-2026.json`
-- `results/claude-may-2026.md`
-
-OpenTimestamps sidecars:
-- `results/livefire-may-2026.json.ots`
-- `results/livefire-openai-gpt5x-2026-05-26.json.ots`
-- `results/claude-may-2026.json.ots`
-
 Artifacts:
 - `results/livefire-may-2026.json`
 - `results/livefire-may-2026.md`
 - `results/livefire-may-2026.csv`
+- `results/livefire-may-2026.json.ots`
 
-## 🖼️ Current dataset
+### OpenAI frontier snapshot — 14 items
 
-The current dataset includes fourteen benchmark items:
+| Model | Score |
+| --- | ---: |
+| `openai/gpt-5.4` | 14 / 14 |
+| `openai/gpt-5.2` | 13 / 14 |
+| `openai/gpt-5.5` | 11 / 14 |
+| `openai/gpt-5.1` | 10 / 14 |
 
-- `SB-001` — two-hat count
-- `SB-002` — mirror mismatch
-- `SB-003` — water reflection mismatch
-- `SB-004` — six-finger hand
-- `SB-005` — garbled sign text
-- `SB-006` — detached glasses arm
-- `SB-007` — shadow direction mismatch
-- `SB-008` — repeated chair count
-- `SB-009` — detached mug handle
-- `SB-010` — transparent glasses count
-- `SB-011` — photographic garbled sign text
-- `SB-012` — photographic duplicated hat portrait
-- `SB-013` — photographic five-chair table
-- `SB-014` — photographic three-wheel bicycle
+Artifacts:
+- `results/livefire-openai-gpt5x-2026-05-26.json`
+- `results/livefire-openai-gpt5x-2026-05-26.md`
+- `results/livefire-openai-gpt5x-2026-05-26.csv`
+- `results/livefire-openai-gpt5x-2026-05-26.json.ots`
 
-Nine of the fourteen current items are **self-authored synthetic probe images** designed to be simple, legible, and easy to score. The remaining five are photographic derivatives built from public-domain or clearly licensed source photos.
+### Claude compatibility snapshot — 10 items
 
-See:
-- `dataset/items.jsonl`
-- `dataset/PROVENANCE.md`
-- `scripts/generate_synthetic_assets.py`
+| Model | Score | Misses |
+| --- | ---: | --- |
+| `anthropic/claude-opus-4-6` | 10 / 10 | none |
+| `anthropic/claude-sonnet-4-6` | 10 / 10 | none |
+| `anthropic/claude-haiku-4-5` | 9 / 10 | `SB-001` |
 
-## ⚡ Quick start
+Artifacts:
+- `results/claude-may-2026.json`
+- `results/claude-may-2026.md`
+- `results/claude-may-2026.json.ots`
 
-### Dry run
+## Quick start
 
 ```bash
 python3 eval.py --dry-run
 ```
-
-### Run against a local Ollama model
-
-```bash
-python3 eval.py \
-  --model ollama/llava:13b \
-  --ollama-host http://127.0.0.1:11434
-```
-
-### Run against OpenAI
-
-```bash
-export OPENAI_API_KEY=...
-python3 eval.py --model openai/gpt-4.1
-```
-
-### Run against xAI
-
-```bash
-export XAI_API_KEY=...
-python3 eval.py --model xai/grok-4.3
-```
-
-### Run the May 2026 vendor snapshot
 
 ```bash
 export OPENAI_API_KEY=...
@@ -116,92 +79,24 @@ python3 run_matrix.py \
   --output results/livefire-may-2026.json
 ```
 
-### Run against OpenRouter free vision models
+## Dataset and method
 
-```bash
-export OPENROUTER_API_KEY=...
-python3 run_matrix.py \
-  --free-openrouter-vision \
-  --output results/openrouter-free-vision.json
-```
+- dataset manifest: `dataset/items.jsonl`
+- images: `dataset/images/`
+- provenance: `dataset/PROVENANCE.md`
+- harness: `eval.py`
+- matrix runner: `run_matrix.py`
+- tests: `tests/`
 
-## 🧱 Output contract
+The harness records the model ref, dataset SHA, timestamp, prompt protocol, raw response, parsed answer, and grading label.
 
-Each run records:
-- exact model ref
-- dataset path
-- dataset SHA-256
-- run timestamp
-- prompt protocol version
-- raw model response
-- parsed answer
-- grading label
-- latency stats
+## Limits
 
-This keeps results easier to reproduce and audit.
+- 14 items is still a small benchmark
+- most items are synthetic probes
+- model behavior changes over time
+- these snapshots apply to this dataset only
 
-## 🧮 Grading model
-
-The harness asks models to return strict JSON:
-
-```json
-{"answer":"two","confidence":"certain","notes":"..."}
-```
-
-Why this shape:
-- freeform answers are fragile to grade
-- substring matching creates false positives
-- contradictory answers should not accidentally pass
-
-The grader still falls back to freeform parsing when needed, but structured output is the preferred path.
-
-## 📁 Repo layout
-
-- `dataset/items.jsonl` — benchmark item manifest
-- `dataset/images/` — benchmark images
-- `dataset/PROVENANCE.md` — asset provenance notes
-- `scripts/generate_synthetic_assets.py` — reproducible synthetic asset generator
-- `scripts/build_pages.py` — static site builder
-- `eval.py` — single-model runner and grading harness
-- `run_matrix.py` — multi-model batch runner
-- `results/` — checked-in benchmark snapshots
-- `site/` — generated site output
-- `tests/` — harness tests
-- `docs/edge-cases.md` — researched expansion targets
-
-## 📉 Limitations
-
-This repo is intentionally small, which means the current results have real limits:
-
-- fourteen items is still a small benchmark
-- most items are synthetic probes, not naturalistic photographs
-- live model behavior changes over time
-- passing Shibboleth does **not** imply general multimodal competence
-
-Treat it as a small benchmark, not a final verdict on overall model quality.
-
-## 🧠 Claude compatibility note
-
-The checked-in Claude snapshot currently covers only the original 10-item corpus:
-
-- `anthropic/claude-opus-4-6` — **10 / 10**
-- `anthropic/claude-sonnet-4-6` — **10 / 10**
-- `anthropic/claude-haiku-4-5` — **9 / 10**
-
-That snapshot was run via Cowork / Claude Agent tooling rather than the `eval.py` harness, so it is labeled separately from harness-run snapshots.
-
-## 🛣️ Next steps
-
-Candidate future additions include:
-- more naturalistic mirror and glossy-surface probes
-- more hand and anatomy edge cases
-- signage and label reading variants
-- accessory symmetry and attachment failures
-- repeated-object counting scenes with more visual noise
-- lighting contradictions in more realistic scenes
-
-See `docs/edge-cases.md` for the fuller list of candidate additions.
-
-## 📄 License
+## License
 
 Apache 2.0.

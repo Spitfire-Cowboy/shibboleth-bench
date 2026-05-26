@@ -10,4 +10,4 @@ Dataset SHA-256: `8eeb9bae57d8…` (full hash in the JSON snapshot)
 - `xai/grok-4.3` — **11/14** (misses: SB-001, SB-013, SB-014)
 - `openai/gpt-5` — **7/14** (misses: SB-001, SB-004, SB-005, SB-011, SB-012, SB-013, SB-014)
 
-This snapshot covers a small anomaly-focused benchmark. It should not be read as a broad multimodal ranking.
+This snapshot covers the 14-item Shibboleth dataset checked into `main` at the time of the run.

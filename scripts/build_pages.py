@@ -7,10 +7,26 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASET = ROOT / 'dataset' / 'items.jsonl'
-RESULTS = ROOT / 'results' / 'livefire-may-2026.json'
+HARNESS_RESULTS = ROOT / 'results' / 'livefire-may-2026.json'
+OPENAI_FRONTIER_RESULTS = ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.json'
+CLAUDE_RESULTS = ROOT / 'results' / 'claude-may-2026.json'
 SITE = ROOT / 'site'
 IMAGES_OUT = SITE / 'images'
 RESULTS_OUT = SITE / 'results'
+
+PUBLISHED_RESULTS = [
+    ROOT / 'results' / 'livefire-may-2026.json',
+    ROOT / 'results' / 'livefire-may-2026.md',
+    ROOT / 'results' / 'livefire-may-2026.csv',
+    ROOT / 'results' / 'livefire-may-2026.json.ots',
+    ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.json',
+    ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.md',
+    ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.csv',
+    ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.json.ots',
+    ROOT / 'results' / 'claude-may-2026.json',
+    ROOT / 'results' / 'claude-may-2026.md',
+    ROOT / 'results' / 'claude-may-2026.json.ots',
+]
 
 CSS = """
 :root {
@@ -50,23 +66,35 @@ tr:last-child td { border-bottom: none; }
 .score-ok { color: var(--ok); font-weight: 700; }
 .score-mid { color: var(--warn); font-weight: 700; }
 .score-bad { color: var(--bad); font-weight: 700; }
-.gallery { display:grid; gap:20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.gallery { display:grid; gap:20px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 .figure { background: var(--card); border:1px solid var(--line); border-radius:18px; padding:14px; }
+.figure .image-link { display:block; }
 .figure img { width:100%; height:auto; border-radius:12px; display:block; background:#fff; }
 .figure h3 { margin: 12px 0 6px; font-size: 1rem; }
 .figure code { font-size: 12px; }
+.figure p { margin: 0 0 8px; }
 .table-wrap { overflow-x: auto; }
+.item-results { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.item-results h4 { margin: 0 0 8px; font-size: .95rem; }
+.item-results ul { margin: 0; padding-left: 18px; }
+.item-results li { margin: 0 0 4px; }
 .footer { margin-top: 60px; color: var(--muted); font-size: 14px; }
 @media (max-width: 640px) { .wrapper { padding-inline: 14px; } th, td { padding:10px; } }
 """
 
 
-def load_dataset():
+def load_json(path: Path) -> dict:
+    return json.loads(path.read_text(encoding='utf-8'))
+
+
+def load_dataset() -> list[dict]:
     rows = []
     for line in DATASET.read_text(encoding='utf-8').splitlines():
         if line.strip():
             rows.append(json.loads(line))
     return rows
+
+
 def score_class(correct: int, total: int) -> str:
     pct = correct / total if total else 0
     if pct >= 0.9:
@@ -76,39 +104,64 @@ def score_class(correct: int, total: int) -> str:
     return 'score-bad'
 
 
+def item_status_class(label: str) -> str:
+    return {'correct': 'score-ok', 'partial': 'score-mid'}.get(label, 'score-bad')
+
+
+def render_answer(item: dict) -> str:
+    parsed = item.get('parsed_answer')
+    if parsed is None:
+        return '—'
+    return html.escape(str(parsed))
+
+
+def build_item_results(dataset: list[dict], snapshots: list[tuple[str, dict]]) -> dict[str, list[str]]:
+    by_item = {row['id']: [] for row in dataset}
+    for label, snapshot in snapshots:
+        for result in snapshot['results']:
+            model_ref = result['model_ref']
+            for item in result['items']:
+                item_id = item['item_id']
+                if item_id not in by_item:
+                    continue
+                score_label = item.get('score_label', 'incorrect')
+                by_item[item_id].append(
+                    f'<li><code>{html.escape(model_ref)}</code> '
+                    f'<span class="{item_status_class(score_label)}">{html.escape(score_label)}</span> '
+                    f'· answer: <code>{render_answer(item)}</code> '
+                    f'· snapshot: {html.escape(label)}</li>'
+                )
+    return by_item
+
+
 def main() -> None:
     SITE.mkdir(exist_ok=True)
     IMAGES_OUT.mkdir(exist_ok=True)
     RESULTS_OUT.mkdir(exist_ok=True)
 
     dataset = load_dataset()
-    results = json.loads(RESULTS.read_text(encoding='utf-8'))
+    harness = load_json(HARNESS_RESULTS)
+    openai_frontier = load_json(OPENAI_FRONTIER_RESULTS)
+    claude = load_json(CLAUDE_RESULTS)
 
-    # copy assets
     for row in dataset:
         src = ROOT / row['image_path']
-        dst = IMAGES_OUT / src.name
-        dst.write_bytes(src.read_bytes())
+        (IMAGES_OUT / src.name).write_bytes(src.read_bytes())
 
-    for src in [
-        ROOT / 'results' / 'livefire-may-2026.json',
-        ROOT / 'results' / 'livefire-may-2026.md',
-        ROOT / 'results' / 'livefire-may-2026.csv',
-        ROOT / 'results' / 'livefire-may-2026.json.ots',
-        ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.json',
-        ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.md',
-        ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.csv',
-        ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.json.ots',
-        ROOT / 'results' / 'claude-may-2026.json',
-        ROOT / 'results' / 'claude-may-2026.md',
-        ROOT / 'results' / 'claude-may-2026.json.ots',
-    ]:
+    for src in PUBLISHED_RESULTS:
         if src.exists():
             (RESULTS_OUT / src.name).write_bytes(src.read_bytes())
 
+    snapshots = [
+        ('main-14', harness),
+        ('openai-14', openai_frontier),
+        ('claude-10', claude),
+    ]
+    item_results = build_item_results(dataset, snapshots)
+
     leaderboard_rows = []
     ordered_results = sorted(
-        results['results'],
+        harness['results'],
         key=lambda result: (
             -(result.get('correct', 0) / max(result.get('total_items', 1), 1)),
             result.get('model_ref', ''),
@@ -122,15 +175,27 @@ def main() -> None:
             f"<td>{', '.join(misses) if misses else 'none'}</td></tr>"
         )
 
+    claude_rows = []
+    for result in claude['results']:
+        misses = [item['item_id'] for item in result['items'] if item['score_label'] != 'correct']
+        claude_rows.append(
+            f"<tr><td><code>{html.escape(result['model_ref'])}</code></td>"
+            f"<td class=\"{score_class(result['correct'], result['total_items'])}\">{result['correct']} / {result['total_items']}</td>"
+            f"<td>{', '.join(misses) if misses else 'none'}</td></tr>"
+        )
+
     gallery = []
     for row in dataset:
+        image_name = Path(row['image_path']).name
+        results_html = ''.join(item_results.get(row['id'], [])) or '<li>No checked-in model rows for this item.</li>'
         gallery.append(
             f"<article class=\"figure\">"
-            f"<img loading=\"lazy\" src=\"images/{html.escape(Path(row['image_path']).name)}\" alt=\"{html.escape(row['id'])} benchmark image\">"
+            f"<a class=\"image-link\" href=\"images/{html.escape(image_name)}\"><img loading=\"lazy\" src=\"images/{html.escape(image_name)}\" alt=\"{html.escape(row['id'])} benchmark image\"></a>"
             f"<h3>{html.escape(row['id'])} — {html.escape(row['category'])}</h3>"
             f"<p><strong>Prompt:</strong> {html.escape(row['prompt'])}</p>"
             f"<p><strong>Expected:</strong> <code>{html.escape(row['expected'])}</code></p>"
-            f"<p>{html.escape(row.get('notes',''))}</p>"
+            f"<p>{html.escape(row.get('notes', ''))}</p>"
+            f"<div class=\"item-results\"><h4>Checked-in per-model results</h4><ul>{results_html}</ul></div>"
             f"</article>"
         )
 
@@ -158,7 +223,7 @@ def main() -> None:
       <div class=\"badges\">
         <span class=\"badge\">{len(dataset)} benchmark items</span>
         <span class=\"badge\">Apache 2.0</span>
-        <span class=\"badge\">Dataset SHA {html.escape(results['dataset_sha256'][:12])}…</span>
+        <span class=\"badge\">Dataset SHA {html.escape(harness['dataset_sha256'][:12])}…</span>
       </div>
     </section>
 
@@ -170,6 +235,17 @@ def main() -> None:
         <tbody>{''.join(leaderboard_rows)}</tbody>
       </table>
       </div>
+    </section>
+
+    <section class=\"section\">
+      <h2>Claude compatibility snapshot</h2>
+      <div class=\"table-wrap\">
+      <table>
+        <thead><tr><th>Model</th><th>Score</th><th>Misses</th></tr></thead>
+        <tbody>{''.join(claude_rows)}</tbody>
+      </table>
+      </div>
+      <p class=\"lede\" style=\"font-size:1rem; margin-top:12px;\">This Claude snapshot covers SB-001 through SB-010 and is published separately from the 14-item harness snapshots.</p>
     </section>
 
     <section class=\"section grid cols-2\">
@@ -200,7 +276,7 @@ def main() -> None:
       <h2>Artifacts</h2>
       <div class=\"grid cols-2\">
         <article class=\"card\"><h3>Machine-readable results</h3><p><a href=\"results/livefire-may-2026.json\">May 2026 JSON snapshot</a><br><a href=\"results/livefire-may-2026.csv\">May 2026 CSV summary</a><br><a href=\"results/livefire-may-2026.md\">May 2026 Markdown summary</a><br><a href=\"results/livefire-may-2026.json.ots\">May 2026 OpenTimestamps proof</a><br><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.json\">OpenAI frontier JSON snapshot</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.csv\">OpenAI frontier CSV summary</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.md\">OpenAI frontier Markdown summary</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.json.ots\">OpenAI frontier OpenTimestamps proof</a><br><br><a href=\"results/claude-may-2026.json\">Claude 10-item JSON snapshot</a><br><a href=\"results/claude-may-2026.md\">Claude 10-item Markdown summary</a><br><a href=\"results/claude-may-2026.json.ots\">Claude OpenTimestamps proof</a></p></article>
-        <article class=\"card\"><h3>Repository</h3><p><a href=\"https://github.com/Spitfire-Cowboy/shibboleth-bench\">View on GitHub</a></p></article>
+        <article class=\"card\"><h3>Repository</h3><p><a href=\"https://github.com/Spitfire-Cowboy/shibboleth-bench\">View on GitHub</a><br><a href=\"results/claude-may-2026.md\">Claude snapshot summary</a></p></article>
       </div>
     </section>
 
