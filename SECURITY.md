@@ -1,9 +1,12 @@
 # Security Policy
 
-If you find a security issue in Shibboleth, please report it privately to the maintainers instead of opening a public issue.
+If you find a security issue in Shibboleth, please report it privately instead of opening a public issue.
 
-This repository is a benchmark harness and dataset, so the main expected security risks are:
-- dependency issues
+Preferred reporting path:
+- https://github.com/Spitfire-Cowboy/shibboleth-bench/security/advisories/new
+
+This repository is a benchmark harness and dataset, so the most likely security issues are:
+- dependency problems
 - accidental credential leakage in checked-in result files
 - unsafe handling of vendor API responses or files
 

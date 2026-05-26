@@ -55,6 +55,7 @@ tr:last-child td { border-bottom: none; }
 .figure img { width:100%; height:auto; border-radius:12px; display:block; background:#fff; }
 .figure h3 { margin: 12px 0 6px; font-size: 1rem; }
 .figure code { font-size: 12px; }
+.table-wrap { overflow-x: auto; }
 .footer { margin-top: 60px; color: var(--muted); font-size: 14px; }
 @media (max-width: 640px) { .wrapper { padding-inline: 14px; } th, td { padding:10px; } }
 """
@@ -66,13 +67,11 @@ def load_dataset():
         if line.strip():
             rows.append(json.loads(line))
     return rows
-
-
 def score_class(correct: int, total: int) -> str:
     pct = correct / total if total else 0
-    if pct >= 1:
+    if pct >= 0.9:
         return 'score-ok'
-    if pct >= 0.8:
+    if pct >= 0.7:
         return 'score-mid'
     return 'score-bad'
 
@@ -91,12 +90,26 @@ def main() -> None:
         dst = IMAGES_OUT / src.name
         dst.write_bytes(src.read_bytes())
 
-    for src in [ROOT / 'results' / 'livefire-may-2026.json', ROOT / 'results' / 'livefire-may-2026.md', ROOT / 'results' / 'livefire-may-2026.csv']:
+    for src in [
+        ROOT / 'results' / 'livefire-may-2026.json',
+        ROOT / 'results' / 'livefire-may-2026.md',
+        ROOT / 'results' / 'livefire-may-2026.csv',
+        ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.json',
+        ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.md',
+        ROOT / 'results' / 'livefire-openai-gpt5x-2026-05-26.csv',
+    ]:
         if src.exists():
             (RESULTS_OUT / src.name).write_bytes(src.read_bytes())
 
     leaderboard_rows = []
-    for result in results['results']:
+    ordered_results = sorted(
+        results['results'],
+        key=lambda result: (
+            -(result.get('correct', 0) / max(result.get('total_items', 1), 1)),
+            result.get('model_ref', ''),
+        ),
+    )
+    for result in ordered_results:
         misses = [item['item_id'] for item in result['items'] if item['score_label'] != 'correct']
         leaderboard_rows.append(
             f"<tr><td><code>{html.escape(result['model_ref'])}</code></td>"
@@ -108,7 +121,7 @@ def main() -> None:
     for row in dataset:
         gallery.append(
             f"<article class=\"figure\">"
-            f"<img src=\"images/{html.escape(Path(row['image_path']).name)}\" alt=\"{html.escape(row['id'])} benchmark image\">"
+            f"<img loading=\"lazy\" src=\"images/{html.escape(Path(row['image_path']).name)}\" alt=\"{html.escape(row['id'])} benchmark image\">"
             f"<h3>{html.escape(row['id'])} — {html.escape(row['category'])}</h3>"
             f"<p><strong>Prompt:</strong> {html.escape(row['prompt'])}</p>"
             f"<p><strong>Expected:</strong> <code>{html.escape(row['expected'])}</code></p>"
@@ -121,29 +134,37 @@ def main() -> None:
 <head>
   <meta charset=\"utf-8\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-  <title>Shibboleth Bench</title>
+  <title>Shibboleth Bench — Visual Anomaly Benchmark for Multimodal Models</title>
   <meta name=\"description\" content=\"Benchmark for testing how multimodal models handle clear visual anomalies.\">
+  <meta property=\"og:title\" content=\"Shibboleth Bench\">
+  <meta property=\"og:description\" content=\"A focused benchmark: do multimodal models catch obvious visual anomalies?\">
+  <meta property=\"og:image\" content=\"https://spitfire-cowboy.github.io/shibboleth-bench/images/two-hat-logo.png\">
+  <meta property=\"og:url\" content=\"https://spitfire-cowboy.github.io/shibboleth-bench/\">
+  <meta name=\"twitter:card\" content=\"summary_large_image\">
   <style>{CSS}</style>
 </head>
 <body>
   <main class=\"wrapper\">
     <section class=\"hero\">
-      <div class=\"kicker\">Shibboleth Bench</div>
+      <div class=\"kicker\">Visual anomaly benchmark · {len(dataset)} items · May 2026</div>
       <h1>Testing multimodal models on clear visual anomalies</h1>
-      <p class=\"lede\">A small benchmark for one narrow question: does a model miss obvious image-generation mistakes or discrete-object anomalies? This site covers a small benchmark, not a general multimodal leaderboard.</p>
+      <p class=\"lede\">A focused benchmark for one narrow question: does a model miss obvious image-generation mistakes or discrete-object anomalies?</p>
       <div class=\"badges\">
-        <span class=\"badge\">10 benchmark items</span>
+        <span class=\"badge\">{len(dataset)} benchmark items</span>
         <span class=\"badge\">Apache 2.0</span>
-        <span class=\"badge\">Dataset SHA {html.escape(results['dataset_sha256'][:12])}…</span>
+        <span class=\"badge\">Published snapshot SHA {html.escape(results['dataset_sha256'][:12])}…</span>
       </div>
     </section>
 
     <section class=\"section\">
       <h2>Latest May 2026 results</h2>
+      <p class=\"lede\">This published snapshot still uses the original 10-item public corpus. The current dataset in <code>main</code> has additional photographic probes that are ready for the next livefire pass.</p>
+      <div class=\"table-wrap\">
       <table>
         <thead><tr><th>Model</th><th>Score</th><th>Misses</th></tr></thead>
         <tbody>{''.join(leaderboard_rows)}</tbody>
       </table>
+      </div>
     </section>
 
     <section class=\"section grid cols-2\">
@@ -161,7 +182,7 @@ def main() -> None:
       <h2>Method</h2>
       <div class=\"grid cols-2\">
         <article class=\"card\"><h3>Structured grading</h3><p>Models are prompted for strict JSON answers, with raw responses and parsed answers preserved alongside the grader result.</p></article>
-        <article class=\"card\"><h3>Controlled probes</h3><p>Most items are self-authored synthetic probe images designed to be simple, legible, and easy to score consistently.</p></article>
+        <article class=\"card\"><h3>Controlled probes</h3><p>Nine of the fourteen current items are self-authored synthetic probe images designed to be simple, legible, and easy to score consistently. The rest are photographic derivatives built from public-domain source photos.</p></article>
       </div>
     </section>
 
@@ -173,12 +194,12 @@ def main() -> None:
     <section class=\"section\">
       <h2>Artifacts</h2>
       <div class=\"grid cols-2\">
-        <article class=\"card\"><h3>Machine-readable results</h3><p><a href=\"results/livefire-may-2026.json\">JSON snapshot</a><br><a href=\"results/livefire-may-2026.csv\">CSV summary</a><br><a href=\"results/livefire-may-2026.md\">Markdown summary</a></p></article>
+        <article class=\"card\"><h3>Machine-readable results</h3><p><a href=\"results/livefire-may-2026.json\">May 2026 JSON snapshot</a><br><a href=\"results/livefire-may-2026.csv\">May 2026 CSV summary</a><br><a href=\"results/livefire-may-2026.md\">May 2026 Markdown summary</a><br><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.json\">OpenAI frontier JSON snapshot</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.csv\">OpenAI frontier CSV summary</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.md\">OpenAI frontier Markdown summary</a></p></article>
         <article class=\"card\"><h3>Repository</h3><p><a href=\"https://github.com/Spitfire-Cowboy/shibboleth-bench\">View on GitHub</a></p></article>
       </div>
     </section>
 
-    <footer class=\"footer\">Shibboleth is a small benchmark for visual anomalies, not a claim about overall model quality.</footer>
+    <footer class=\"footer\">Shibboleth is a focused benchmark for visual anomalies, not a claim about overall model quality. · <a href=\"https://github.com/Spitfire-Cowboy/shibboleth-bench\">GitHub</a> · <a href=\"https://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0</a></footer>
   </main>
 </body>
 </html>

@@ -30,7 +30,7 @@ Suggested prompt styles:
 - `How many fingers are visible on the raised hand?`
 - `Is this hand anatomically normal? Answer yes or no.`
 
-## 2. Mirror reflections
+## Mirror reflections
 
 Why it matters:
 - mirror geometry still exposes inconsistencies in many generated images
@@ -45,7 +45,7 @@ Suggested prompt styles:
 - `Does the mirror reflection match the real pose? Answer yes or no.`
 - `How many hats appear in the mirror?`
 
-## 3. Water or glossy-surface reflections
+## Water or glossy-surface reflections
 
 Why it matters:
 - water and shiny surfaces often produce broken reflection logic
@@ -60,7 +60,7 @@ Suggested prompt styles:
 - `Does the water reflection show the same number of people?`
 - `Is the reflection physically consistent? Answer yes or no.`
 
-## 4. Text, signage, and labels
+## Text, signage, and labels
 
 Why it matters:
 - image generators often produce plausible-looking but wrong text
@@ -75,7 +75,7 @@ Suggested prompt styles:
 - `What exact word is printed on the sign?`
 - `Is the label readable English? Answer yes or no.`
 
-## 5. Eyewear, jewelry, and symmetrical accessories
+## Eyewear, jewelry, and symmetrical accessories
 
 Why it matters:
 - asymmetry and attachment errors remain common in generated imagery
@@ -90,7 +90,7 @@ Suggested prompt styles:
 - `Are both earrings present?`
 - `Do the glasses attach correctly on both sides?`
 
-## 6. Repeated object patterns
+## Repeated object patterns
 
 Why it matters:
 - repeated motifs often reveal duplication or counting mistakes
@@ -106,7 +106,7 @@ Suggested prompt styles:
 - `How many chairs are visible around the table?`
 - `How many wheels does the bicycle have?`
 
-## 7. Shadow and lighting contradictions
+## Shadow and lighting contradictions
 
 Why it matters:
 - generated imagery often looks plausible locally while violating scene-wide lighting consistency
@@ -121,11 +121,11 @@ Suggested prompt styles:
 - `Do the shadows fall in the same direction?`
 - `Is the lighting physically consistent?`
 
-## 8. Object attachment and continuity
+## Object attachment and continuity
 
 Why it matters:
 - generators still create floating straps, disconnected handles, impossible seams, or merged edges
-- strong screening signal when the object is familiar
+- strong signal when the object is familiar
 
 Good benchmark forms:
 - mug handle detached from mug
@@ -135,9 +135,9 @@ Good benchmark forms:
 
 Suggested prompt styles:
 - `Is the strap attached correctly?`
-- `Does the object connect physically in a plausible way?`
+- `Does the object connect physically in a coherent way?`
 
-## 9. Transparent objects and glass
+## Transparent objects and glass
 
 Why it matters:
 - transparency, refraction, and overlapping contours remain brittle
@@ -152,7 +152,7 @@ Suggested prompt styles:
 - `Is the glass physically plausible? Answer yes or no.`
 - `How many transparent glasses are on the table?`
 
-## 10. Face-side consistency
+## Face-side consistency
 
 Why it matters:
 - while faces are much better than early models, ears, teeth, and side accessories can still break

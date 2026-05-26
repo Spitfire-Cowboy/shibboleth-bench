@@ -1,6 +1,6 @@
 # shibboleth-bench
 
-A small Apache 2.0 benchmark for testing how multimodal models handle clear visual anomalies.
+A focused benchmark for one narrow question: do multimodal models catch obvious visual anomalies that a human would notice immediately?
 
 [![CI](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml)
 [![Pages](https://img.shields.io/badge/pages-live-7d3f1d)](https://spitfire-cowboy.github.io/shibboleth-bench/)
@@ -11,8 +11,7 @@ A small Apache 2.0 benchmark for testing how multimodal models handle clear visu
 
 > Does this model miss obvious image-generation mistakes or discrete-object anomalies?
 
-Shibboleth is a narrow benchmark, not a full evaluation stack.
-It is meant to help compare models on a small set of crisp, high-signal probes before deeper testing.
+Shibboleth is a narrow benchmark, not a full evaluation stack. It compares models on a small set of crisp, high-signal probes before deeper testing.
 
 ## 🌐 Public surface
 
@@ -21,20 +20,9 @@ It is meant to help compare models on a small set of crisp, high-signal probes b
 - **Latest JSON snapshot:** `results/livefire-may-2026.json`
 - **Latest CSV snapshot:** `results/livefire-may-2026.csv`
 
-## ✅ Current status
+## 🧪 Latest published May 2026 snapshot
 
-- **benchmark harness:** ready
-- **checked-in dataset:** 10 items
-- **structured-answer grading:** yes
-- **direct vendor livefire support:** yes
-  - Ollama
-  - OpenRouter
-  - OpenAI
-  - xAI
-- **benchmark site:** live
-- **scope:** narrow anomaly evaluation, not a general leaderboard
-
-## 🧪 Current May 2026 snapshot
+This published snapshot still reflects the original 10-item public corpus. The dataset in `main` has since been expanded with additional photographic probes.
 
 | Model | Score | Misses |
 | --- | ---: | --- |
@@ -44,6 +32,11 @@ It is meant to help compare models on a small set of crisp, high-signal probes b
 | `xai/grok-4.3` | 9 / 10 | `SB-001` |
 | `openai/gpt-5` | 7 / 10 | `SB-001`, `SB-005`, `SB-008` |
 
+Additional OpenAI frontier snapshot:
+- `results/livefire-openai-gpt5x-2026-05-26.json`
+- `results/livefire-openai-gpt5x-2026-05-26.md`
+- `results/livefire-openai-gpt5x-2026-05-26.csv`
+
 Artifacts:
 - `results/livefire-may-2026.json`
 - `results/livefire-may-2026.md`
@@ -51,7 +44,7 @@ Artifacts:
 
 ## 🖼️ Current dataset
 
-The benchmark currently includes ten high-signal probes:
+The benchmark currently includes fourteen high-signal probes:
 
 - `SB-001` — two-hat count
 - `SB-002` — mirror mismatch
@@ -63,8 +56,12 @@ The benchmark currently includes ten high-signal probes:
 - `SB-008` — repeated chair count
 - `SB-009` — detached mug handle
 - `SB-010` — transparent glasses count
+- `SB-011` — photographic garbled sign text
+- `SB-012` — photographic duplicated hat portrait
+- `SB-013` — photographic five-chair table
+- `SB-014` — photographic three-wheel bicycle
 
-Most of these are **self-authored synthetic probe images** designed to be simple, legible, and easy to score.
+Nine of the fourteen current items are **self-authored synthetic probe images** designed to be simple, legible, and easy to score. The remaining five are photographic derivatives built from public-domain or clearly licensed source photos.
 
 See:
 - `dataset/items.jsonl`
@@ -134,7 +131,7 @@ Each run records:
 - grading label
 - latency stats
 
-This makes results easier to reproduce and audit.
+This keeps results easier to reproduce and audit.
 
 ## 🧮 Grading model
 
@@ -174,7 +171,7 @@ This repo is intentionally small, which means the current results have real limi
 - live model behavior changes over time
 - passing Shibboleth does **not** imply general multimodal competence
 
-Treat it as a small benchmark, not a final verdict.
+Treat it as a small benchmark, not a final verdict on overall model quality.
 
 ## 🛣️ Next steps
 

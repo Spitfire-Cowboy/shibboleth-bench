@@ -27,3 +27,31 @@ These images are intentionally simple. They are not meant to be photoreal exampl
 - `dataset/images/two-hat-logo.png`
 
 This benchmark item remains the original motivating probe for the repository and should continue to be tracked separately in any publication-quality discussion.
+
+## Photographic derivative benchmark assets
+
+The following Shibboleth assets are photographic derivatives built from public-domain or clearly licensed source photos:
+
+- `dataset/images/photo-garbled-library-sign.jpg`
+- `dataset/images/photo-duplicated-hat-portrait.jpg`
+- `dataset/images/photo-five-chairs-table.jpg`
+- `dataset/images/photo-three-wheel-bicycle.jpg`
+
+These files were created in-repo by `scripts/generate_photographic_assets.py`.
+
+### Source files
+
+- `dataset/sources/library-road-sign-source.jpg`
+  - Source: https://commons.wikimedia.org/wiki/Special:FilePath/Library-road-sign.jpg
+  - License status: Wikimedia Commons public-domain source
+- `dataset/sources/portrait-hat-man-source.jpg`
+  - Source: https://commons.wikimedia.org/wiki/Special:FilePath/Portrait,%20hat,%20man,%20studio%20Fortepan%203545.jpg
+  - License status: Wikimedia Commons public-domain source
+- `dataset/sources/table-and-chairs-source.jpg`
+  - Source: https://commons.wikimedia.org/wiki/Special:FilePath/Table%20and%20chairs.jpg
+  - License status: Wikimedia Commons public-domain source
+- `dataset/sources/bicycle-park-source.jpg`
+  - Source: https://commons.wikimedia.org/wiki/Special:FilePath/Bicycle2010.JPG
+  - License status: public domain (author release on Wikimedia Commons)
+
+The derivatives intentionally introduce clear visual anomalies while preserving the underlying photographic scene. They are meant to be more realistic than the synthetic probes while still staying easy to score.

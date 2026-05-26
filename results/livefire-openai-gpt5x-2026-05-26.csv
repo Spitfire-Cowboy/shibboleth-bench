@@ -1,0 +1,5 @@
+"model_ref","correct","total_items","accuracy","misses"
+"openai/gpt-5.2","10","10","1.0000","none"
+"openai/gpt-5.4","10","10","1.0000","none"
+"openai/gpt-5.1","9","10","0.9000","SB-001"
+"openai/gpt-5.5","7","10","0.7000","SB-001, SB-002, SB-004"

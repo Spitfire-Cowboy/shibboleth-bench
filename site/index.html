@@ -3,8 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Shibboleth Bench</title>
+  <title>Shibboleth Bench — Visual Anomaly Benchmark for Multimodal Models</title>
   <meta name="description" content="Benchmark for testing how multimodal models handle clear visual anomalies.">
+  <meta property="og:title" content="Shibboleth Bench">
+  <meta property="og:description" content="A focused benchmark: do multimodal models catch obvious visual anomalies?">
+  <meta property="og:image" content="https://spitfire-cowboy.github.io/shibboleth-bench/images/two-hat-logo.png">
+  <meta property="og:url" content="https://spitfire-cowboy.github.io/shibboleth-bench/">
+  <meta name="twitter:card" content="summary_large_image">
   <style>
 :root {
   color-scheme: light;
@@ -48,6 +53,7 @@ tr:last-child td { border-bottom: none; }
 .figure img { width:100%; height:auto; border-radius:12px; display:block; background:#fff; }
 .figure h3 { margin: 12px 0 6px; font-size: 1rem; }
 .figure code { font-size: 12px; }
+.table-wrap { overflow-x: auto; }
 .footer { margin-top: 60px; color: var(--muted); font-size: 14px; }
 @media (max-width: 640px) { .wrapper { padding-inline: 14px; } th, td { padding:10px; } }
 </style>
@@ -55,22 +61,25 @@ tr:last-child td { border-bottom: none; }
 <body>
   <main class="wrapper">
     <section class="hero">
-      <div class="kicker">Shibboleth Bench</div>
+      <div class="kicker">Visual anomaly benchmark · 14 items · May 2026</div>
       <h1>Testing multimodal models on clear visual anomalies</h1>
-      <p class="lede">A small benchmark for one narrow question: does a model miss obvious image-generation mistakes or discrete-object anomalies? This site covers a small benchmark, not a general multimodal leaderboard.</p>
+      <p class="lede">A focused benchmark for one narrow question: does a model miss obvious image-generation mistakes or discrete-object anomalies?</p>
       <div class="badges">
-        <span class="badge">10 benchmark items</span>
+        <span class="badge">14 benchmark items</span>
         <span class="badge">Apache 2.0</span>
-        <span class="badge">Dataset SHA a5dec043acfc…</span>
+        <span class="badge">Published snapshot SHA a5dec043acfc…</span>
       </div>
     </section>
 
     <section class="section">
       <h2>Latest May 2026 results</h2>
+      <p class="lede">This published snapshot still uses the original 10-item public corpus. The current dataset in <code>main</code> has additional photographic probes that are ready for the next livefire pass.</p>
+      <div class="table-wrap">
       <table>
         <thead><tr><th>Model</th><th>Score</th><th>Misses</th></tr></thead>
-        <tbody><tr><td><code>openai/gpt-4.1</code></td><td class="score-mid">9 / 10</td><td>SB-001</td></tr><tr><td><code>openai/gpt-4o</code></td><td class="score-ok">10 / 10</td><td>none</td></tr><tr><td><code>openai/gpt-4o-mini</code></td><td class="score-mid">9 / 10</td><td>SB-001</td></tr><tr><td><code>openai/gpt-5</code></td><td class="score-bad">7 / 10</td><td>SB-001, SB-005, SB-008</td></tr><tr><td><code>xai/grok-4.3</code></td><td class="score-mid">9 / 10</td><td>SB-001</td></tr></tbody>
+        <tbody><tr><td><code>openai/gpt-4o</code></td><td class="score-ok">10 / 10</td><td>none</td></tr><tr><td><code>openai/gpt-4.1</code></td><td class="score-ok">9 / 10</td><td>SB-001</td></tr><tr><td><code>openai/gpt-4o-mini</code></td><td class="score-ok">9 / 10</td><td>SB-001</td></tr><tr><td><code>xai/grok-4.3</code></td><td class="score-ok">9 / 10</td><td>SB-001</td></tr><tr><td><code>openai/gpt-5</code></td><td class="score-mid">7 / 10</td><td>SB-001, SB-005, SB-008</td></tr></tbody>
       </table>
+      </div>
     </section>
 
     <section class="section grid cols-2">
@@ -88,24 +97,24 @@ tr:last-child td { border-bottom: none; }
       <h2>Method</h2>
       <div class="grid cols-2">
         <article class="card"><h3>Structured grading</h3><p>Models are prompted for strict JSON answers, with raw responses and parsed answers preserved alongside the grader result.</p></article>
-        <article class="card"><h3>Controlled probes</h3><p>Most items are self-authored synthetic probe images designed to be simple, legible, and easy to score consistently.</p></article>
+        <article class="card"><h3>Controlled probes</h3><p>Nine of the fourteen current items are self-authored synthetic probe images designed to be simple, legible, and easy to score consistently. The rest are photographic derivatives built from public-domain source photos.</p></article>
       </div>
     </section>
 
     <section class="section">
       <h2>Benchmark items</h2>
-      <div class="gallery"><article class="figure"><img src="images/two-hat-logo.png" alt="SB-001 benchmark image"><h3>SB-001 — counting</h3><p><strong>Prompt:</strong> How many hats is the person wearing?</p><p><strong>Expected:</strong> <code>two</code></p><p>Canonical two-hat Spitfire Cowboy logo image.</p></article><article class="figure"><img src="images/mirror-hat-mismatch.png" alt="SB-002 benchmark image"><h3>SB-002 — mirror</h3><p><strong>Prompt:</strong> Does the mirror reflection match the real figure? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Real figure wears one hat; mirror shows two.</p></article><article class="figure"><img src="images/water-reflection-buoys.png" alt="SB-003 benchmark image"><h3>SB-003 — reflection</h3><p><strong>Prompt:</strong> Does the water reflection show the same number of buoys as the real scene? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Three buoys above water, only two reflected below.</p></article><article class="figure"><img src="images/six-finger-hand.png" alt="SB-004 benchmark image"><h3>SB-004 — hands</h3><p><strong>Prompt:</strong> How many fingers are visible on the raised hand?</p><p><strong>Expected:</strong> <code>six</code></p><p>Synthetic six-finger hand probe.</p></article><article class="figure"><img src="images/garbled-sign-text.png" alt="SB-005 benchmark image"><h3>SB-005 — text</h3><p><strong>Prompt:</strong> Is the sign readable English? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Intentionally malformed storefront lettering.</p></article><article class="figure"><img src="images/detached-glasses-arm.png" alt="SB-006 benchmark image"><h3>SB-006 — accessories</h3><p><strong>Prompt:</strong> Do the glasses attach correctly on both sides? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>One glasses arm floats above the face instead of attaching.</p></article><article class="figure"><img src="images/shadow-direction-mismatch.png" alt="SB-007 benchmark image"><h3>SB-007 — lighting</h3><p><strong>Prompt:</strong> Do both shadows fall in the same direction? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Two identical posts cast shadows in opposite directions.</p></article><article class="figure"><img src="images/repeated-chairs-count.png" alt="SB-008 benchmark image"><h3>SB-008 — counting</h3><p><strong>Prompt:</strong> How many chairs are visible around the table?</p><p><strong>Expected:</strong> <code>five</code></p><p>Repeated-object count probe with five visible chairs.</p></article><article class="figure"><img src="images/detached-mug-handle.png" alt="SB-009 benchmark image"><h3>SB-009 — continuity</h3><p><strong>Prompt:</strong> Is the mug handle attached correctly? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Mug handle floats apart from the mug body.</p></article><article class="figure"><img src="images/transparent-glasses-count.png" alt="SB-010 benchmark image"><h3>SB-010 — transparency</h3><p><strong>Prompt:</strong> How many transparent drinking glasses are visible on the shelf?</p><p><strong>Expected:</strong> <code>three</code></p><p>Transparent-object counting probe with three glasses.</p></article></div>
+      <div class="gallery"><article class="figure"><img loading="lazy" src="images/two-hat-logo.png" alt="SB-001 benchmark image"><h3>SB-001 — counting</h3><p><strong>Prompt:</strong> How many hats is the person wearing?</p><p><strong>Expected:</strong> <code>two</code></p><p>Canonical two-hat Spitfire Cowboy logo image.</p></article><article class="figure"><img loading="lazy" src="images/mirror-hat-mismatch.png" alt="SB-002 benchmark image"><h3>SB-002 — mirror</h3><p><strong>Prompt:</strong> Does the mirror reflection match the real figure? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Real figure wears one hat; mirror shows two.</p></article><article class="figure"><img loading="lazy" src="images/water-reflection-buoys.png" alt="SB-003 benchmark image"><h3>SB-003 — reflection</h3><p><strong>Prompt:</strong> Does the water reflection show the same number of buoys as the real scene? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Three buoys above water, only two reflected below.</p></article><article class="figure"><img loading="lazy" src="images/six-finger-hand.png" alt="SB-004 benchmark image"><h3>SB-004 — hands</h3><p><strong>Prompt:</strong> How many fingers are visible on the raised hand?</p><p><strong>Expected:</strong> <code>six</code></p><p>Synthetic six-finger hand probe.</p></article><article class="figure"><img loading="lazy" src="images/garbled-sign-text.png" alt="SB-005 benchmark image"><h3>SB-005 — text</h3><p><strong>Prompt:</strong> Is the sign readable English? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Intentionally malformed storefront lettering.</p></article><article class="figure"><img loading="lazy" src="images/detached-glasses-arm.png" alt="SB-006 benchmark image"><h3>SB-006 — accessories</h3><p><strong>Prompt:</strong> Do the glasses attach correctly on both sides? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>One glasses arm floats above the face instead of attaching.</p></article><article class="figure"><img loading="lazy" src="images/shadow-direction-mismatch.png" alt="SB-007 benchmark image"><h3>SB-007 — lighting</h3><p><strong>Prompt:</strong> Do both shadows fall in the same direction? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Two identical posts cast shadows in opposite directions.</p></article><article class="figure"><img loading="lazy" src="images/repeated-chairs-count.png" alt="SB-008 benchmark image"><h3>SB-008 — counting</h3><p><strong>Prompt:</strong> How many chairs are visible around the table?</p><p><strong>Expected:</strong> <code>five</code></p><p>Repeated-object count probe with five visible chairs.</p></article><article class="figure"><img loading="lazy" src="images/detached-mug-handle.png" alt="SB-009 benchmark image"><h3>SB-009 — continuity</h3><p><strong>Prompt:</strong> Is the mug handle attached correctly? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Mug handle floats apart from the mug body.</p></article><article class="figure"><img loading="lazy" src="images/transparent-glasses-count.png" alt="SB-010 benchmark image"><h3>SB-010 — transparency</h3><p><strong>Prompt:</strong> How many transparent drinking glasses are visible on the shelf?</p><p><strong>Expected:</strong> <code>three</code></p><p>Transparent-object counting probe with three glasses.</p></article><article class="figure"><img loading="lazy" src="images/photo-garbled-library-sign.jpg" alt="SB-011 benchmark image"><h3>SB-011 — text</h3><p><strong>Prompt:</strong> Is the street sign readable English? Answer yes or no.</p><p><strong>Expected:</strong> <code>no</code></p><p>Photographic sign image with intentionally garbled lettering derived from a public-domain road sign photo.</p></article><article class="figure"><img loading="lazy" src="images/photo-duplicated-hat-portrait.jpg" alt="SB-012 benchmark image"><h3>SB-012 — counting</h3><p><strong>Prompt:</strong> How many hats is the man wearing?</p><p><strong>Expected:</strong> <code>two</code></p><p>Photographic portrait derivative with a duplicated second hat added above the original.</p></article><article class="figure"><img loading="lazy" src="images/photo-five-chairs-table.jpg" alt="SB-013 benchmark image"><h3>SB-013 — counting</h3><p><strong>Prompt:</strong> How many chairs are visible around the table?</p><p><strong>Expected:</strong> <code>five</code></p><p>Photographic furniture scene with a fifth chair composited into the frame.</p></article><article class="figure"><img loading="lazy" src="images/photo-three-wheel-bicycle.jpg" alt="SB-014 benchmark image"><h3>SB-014 — counting</h3><p><strong>Prompt:</strong> How many wheels are attached to the bicycle?</p><p><strong>Expected:</strong> <code>three</code></p><p>Photographic bicycle scene with an extra third wheel composited beneath the frame.</p></article></div>
     </section>
 
     <section class="section">
       <h2>Artifacts</h2>
       <div class="grid cols-2">
-        <article class="card"><h3>Machine-readable results</h3><p><a href="results/livefire-may-2026.json">JSON snapshot</a><br><a href="results/livefire-may-2026.csv">CSV summary</a><br><a href="results/livefire-may-2026.md">Markdown summary</a></p></article>
+        <article class="card"><h3>Machine-readable results</h3><p><a href="results/livefire-may-2026.json">May 2026 JSON snapshot</a><br><a href="results/livefire-may-2026.csv">May 2026 CSV summary</a><br><a href="results/livefire-may-2026.md">May 2026 Markdown summary</a><br><br><a href="results/livefire-openai-gpt5x-2026-05-26.json">OpenAI frontier JSON snapshot</a><br><a href="results/livefire-openai-gpt5x-2026-05-26.csv">OpenAI frontier CSV summary</a><br><a href="results/livefire-openai-gpt5x-2026-05-26.md">OpenAI frontier Markdown summary</a></p></article>
         <article class="card"><h3>Repository</h3><p><a href="https://github.com/Spitfire-Cowboy/shibboleth-bench">View on GitHub</a></p></article>
       </div>
     </section>
 
-    <footer class="footer">Shibboleth is a small benchmark for visual anomalies, not a claim about overall model quality.</footer>
+    <footer class="footer">Shibboleth is a focused benchmark for visual anomalies, not a claim about overall model quality. · <a href="https://github.com/Spitfire-Cowboy/shibboleth-bench">GitHub</a> · <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a></footer>
   </main>
 </body>
 </html>
