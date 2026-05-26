@@ -1,16 +1,18 @@
 # shibboleth-bench
 
-A small Apache 2.0 benchmark for **visual anomaly screening** in multimodal models.
+A small Apache 2.0 benchmark for testing how multimodal models handle clear visual anomalies.
 
 [![CI](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml)
 [![Pages](https://img.shields.io/badge/pages-live-7d3f1d)](https://spitfire-cowboy.github.io/shibboleth-bench/)
+
+[![Two-hat cowboy benchmark image](dataset/images/two-hat-logo.png)](https://spitfire-cowboy.github.io/shibboleth-bench/)
 
 ## 🔎 What it asks
 
 > Does this model miss obvious image-generation mistakes or discrete-object anomalies?
 
-Shibboleth is a **screening benchmark**, not a full evaluation stack.
-It is meant to cheaply filter out weak multimodal candidates before deeper testing.
+Shibboleth is a narrow benchmark, not a full evaluation stack.
+It is meant to help compare models on a small set of crisp, high-signal probes before deeper testing.
 
 ## 🌐 Public surface
 
@@ -21,7 +23,7 @@ It is meant to cheaply filter out weak multimodal candidates before deeper testi
 
 ## ✅ Current status
 
-- **public-ready benchmark harness:** yes
+- **benchmark harness:** ready
 - **checked-in dataset:** 10 items
 - **structured-answer grading:** yes
 - **direct vendor livefire support:** yes
@@ -29,8 +31,8 @@ It is meant to cheaply filter out weak multimodal candidates before deeper testi
   - OpenRouter
   - OpenAI
   - xAI
-- **public benchmark site:** live
-- **scope:** narrow anomaly screening, not a broad leaderboard
+- **benchmark site:** live
+- **scope:** narrow anomaly evaluation, not a general leaderboard
 
 ## 🧪 Current May 2026 snapshot
 
@@ -132,7 +134,7 @@ Each run records:
 - grading label
 - latency stats
 
-This keeps results reproducible and auditable.
+This makes results easier to reproduce and audit.
 
 ## 🧮 Grading model
 
@@ -155,11 +157,11 @@ The grader still falls back to freeform parsing when needed, but structured outp
 - `dataset/images/` — benchmark images
 - `dataset/PROVENANCE.md` — asset provenance notes
 - `scripts/generate_synthetic_assets.py` — reproducible synthetic asset generator
-- `scripts/build_pages.py` — static benchmark site builder
+- `scripts/build_pages.py` — static site builder
 - `eval.py` — single-model runner and grading harness
 - `run_matrix.py` — multi-model batch runner
 - `results/` — checked-in benchmark snapshots
-- `site/` — generated static site output
+- `site/` — generated site output
 - `tests/` — harness tests
 - `docs/edge-cases.md` — researched expansion targets
 
@@ -172,7 +174,7 @@ This repo is intentionally small, which means the current results have real limi
 - live model behavior changes over time
 - passing Shibboleth does **not** imply general multimodal competence
 
-Treat it as a **cheap screen**, not a final verdict.
+Treat it as a small benchmark, not a final verdict.
 
 ## 🛣️ Next steps
 
@@ -184,7 +186,7 @@ High-value future additions include:
 - repeated-object counting scenes with more visual noise
 - lighting contradictions in more realistic scenes
 
-See `docs/edge-cases.md` for the fuller research list.
+See `docs/edge-cases.md` for the fuller list of candidate additions.
 
 ## 📄 License
 

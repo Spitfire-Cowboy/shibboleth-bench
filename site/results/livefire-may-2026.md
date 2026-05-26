@@ -10,4 +10,4 @@ Dataset SHA-256: `a5dec043acfcaef1f157355fc1bc3d947742760d51272d59afb9152ca4601f
 - `openai/gpt-5` — **7/10** (misses: SB-001, SB-005, SB-008)
 - `xai/grok-4.3` — **9/10** (misses: SB-001)
 
-This snapshot is a narrow anomaly-screening pass, not a broad multimodal ranking.
+This snapshot covers a small anomaly-focused benchmark. It should not be read as a broad multimodal ranking.

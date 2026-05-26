@@ -122,15 +122,15 @@ def main() -> None:
   <meta charset=\"utf-8\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
   <title>Shibboleth Bench</title>
-  <meta name=\"description\" content=\"Visual anomaly screening benchmark for multimodal models.\">
+  <meta name=\"description\" content=\"Benchmark for testing how multimodal models handle clear visual anomalies.\">
   <style>{CSS}</style>
 </head>
 <body>
   <main class=\"wrapper\">
     <section class=\"hero\">
       <div class=\"kicker\">Shibboleth Bench</div>
-      <h1>Visual anomaly screening for multimodal models</h1>
-      <p class=\"lede\">A small benchmark for one narrow question: does a model miss obvious image-generation mistakes or discrete-object anomalies? This is a screening benchmark, not a broad multimodal leaderboard.</p>
+      <h1>Testing multimodal models on clear visual anomalies</h1>
+      <p class=\"lede\">A small benchmark for one narrow question: does a model miss obvious image-generation mistakes or discrete-object anomalies? This site covers a small benchmark, not a general multimodal leaderboard.</p>
       <div class=\"badges\">
         <span class=\"badge\">10 benchmark items</span>
         <span class=\"badge\">Apache 2.0</span>
@@ -139,7 +139,7 @@ def main() -> None:
     </section>
 
     <section class=\"section\">
-      <h2>Latest May 2026 leaderboard</h2>
+      <h2>Latest May 2026 results</h2>
       <table>
         <thead><tr><th>Model</th><th>Score</th><th>Misses</th></tr></thead>
         <tbody>{''.join(leaderboard_rows)}</tbody>
@@ -149,11 +149,11 @@ def main() -> None:
     <section class=\"section grid cols-2\">
       <article class=\"card\">
         <h3>What this benchmark is</h3>
-        <p>A cheap screen for narrow, high-signal failure modes: mirror mismatches, reflections, malformed text, finger counts, attachment failures, repeated objects, and lighting contradictions.</p>
+        <p>A small set of high-signal probes: mirror mismatches, reflections, malformed text, finger counts, attachment failures, repeated objects, and lighting contradictions.</p>
       </article>
       <article class=\"card\">
         <h3>What this benchmark is not</h3>
-        <p>Not a general measure of multimodal competence. Passing Shibboleth does not mean a model is broadly reliable. Failing it means the model misses simple anomalies it should probably catch.</p>
+        <p>Not a general measure of multimodal competence. Passing Shibboleth does not imply broad reliability. Failing it means the model misses simple anomalies it should likely catch.</p>
       </article>
     </section>
 
@@ -178,7 +178,7 @@ def main() -> None:
       </div>
     </section>
 
-    <footer class=\"footer\">Shibboleth is a narrow benchmark harness for anomaly detection, not a claim of general model quality.</footer>
+    <footer class=\"footer\">Shibboleth is a small benchmark for visual anomalies, not a claim about overall model quality.</footer>
   </main>
 </body>
 </html>
