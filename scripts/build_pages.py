@@ -74,7 +74,7 @@ tr:last-child td { border-bottom: none; }
 .score-ok { color: var(--ok); font-weight: 700; }
 .score-mid { color: var(--warn); font-weight: 700; }
 .score-bad { color: var(--bad); font-weight: 700; }
-.gallery { display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.gallery { display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 14px; }
 .figure { background: var(--card); border:1px solid var(--line); border-radius:18px; padding:14px; }
 .figure .image-link { display:block; }
 .figure img { width:100%; height:auto; border-radius:12px; display:block; background:#fff; aspect-ratio: 4 / 3; object-fit: cover; }
@@ -173,6 +173,22 @@ def toughest_rows(dataset: list[dict], item_summary: dict[str, dict]) -> list[st
         )
     return rows
 
+
+
+
+def compact_rows(dataset: list[dict], item_summary: dict[str, dict]) -> list[str]:
+    rows = []
+    for row in dataset:
+        s = item_summary[row['id']]
+        image_name = Path(row['image_path']).name
+        rows.append(
+            f"<tr><td><code>{html.escape(row['id'])}</code></td>"
+            f"<td>{html.escape(row['category'])}</td>"
+            f"<td>{html.escape(row['prompt'])}</td>"
+            f"<td>{s['incorrect']} misses / {s['total']}</td>"
+            f"<td><a href="#{html.escape(row['id'])}">item</a> · <a href="images/{html.escape(image_name)}">image</a></td></tr>"
+        )
+    return rows
 
 def artifact_links() -> str:
     groups = [
@@ -341,8 +357,17 @@ def main() -> None:
     </section>
 
     <section class="section" id="items">
-      <h2>All benchmark items</h2>
-      <div class="gallery">{''.join(gallery)}</div>
+      <h2>Full corpus index</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Type</th><th>Prompt</th><th>Misses</th><th>Links</th></tr></thead>
+          <tbody>{''.join(compact_rows(dataset, item_summary))}</tbody>
+        </table>
+      </div>
+      <details class="card">
+        <summary>Open full image gallery and per-model detail</summary>
+        <div class="gallery">{''.join(gallery)}</div>
+      </details>
     </section>
 
     <section class="section" id="artifacts">
