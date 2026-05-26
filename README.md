@@ -2,6 +2,8 @@
 
 A small Apache 2.0 benchmark harness for **visual anomaly screening** in multimodal models.
 
+[![CI](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml)
+
 Shibboleth is meant to answer a narrow question quickly:
 
 > Does this model miss obvious image-generation mistakes or discrete-object anomalies?
