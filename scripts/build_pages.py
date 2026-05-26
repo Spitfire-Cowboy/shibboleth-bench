@@ -225,7 +225,7 @@ def main() -> None:
   <meta property=\"og:image\" content=\"https://shibboleth.spitfirecowboy.com/images/two-hat-logo.png\">
   <meta property=\"og:url\" content=\"https://shibboleth.spitfirecowboy.com/\">
   <meta name=\"twitter:card\" content=\"summary_large_image\">
-  <script defer data-domain=\"spitfire-cowboy.github.io\" src=\"https://analytics.spitfirecowboy.com/js/script.js\"></script>
+  <script defer data-domain=\"shibboleth.spitfirecowboy.com\" src=\"https://analytics.spitfirecowboy.com/js/script.js\"></script>
   <style>{CSS}</style>
 </head>
 <body>
