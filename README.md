@@ -149,6 +149,7 @@ The grader still falls back to freeform parsing when needed, but the preferred p
 See:
 - `results/livefire-may-2026.json`
 - `results/livefire-may-2026.md`
+- `results/livefire-may-2026.csv`
 
 Current May 2026 snapshot highlights:
 - `openai/gpt-4o` — **10/10**
@@ -156,6 +157,14 @@ Current May 2026 snapshot highlights:
 - `openai/gpt-4o-mini` — **9/10**
 - `xai/grok-4.3` — **9/10**
 - `openai/gpt-5` — **7/10**
+
+| Model | Score | Misses |
+| --- | ---: | --- |
+| `openai/gpt-4o` | 10 / 10 | none |
+| `openai/gpt-4.1` | 9 / 10 | `SB-001` |
+| `openai/gpt-4o-mini` | 9 / 10 | `SB-001` |
+| `xai/grok-4.3` | 9 / 10 | `SB-001` |
+| `openai/gpt-5` | 7 / 10 | `SB-001`, `SB-005`, `SB-008` |
 
 ## Benchmark limitations
 
