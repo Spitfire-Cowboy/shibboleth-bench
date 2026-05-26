@@ -4,6 +4,7 @@ from __future__ import annotations
 import html
 import json
 from pathlib import Path
+from collections import defaultdict
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASET = ROOT / 'dataset' / 'items.jsonl'
@@ -46,20 +47,26 @@ CSS = """
 * { box-sizing: border-box; }
 body { margin: 0; font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); }
 a { color: var(--accent); }
-.wrapper { max-width: 1100px; margin: 0 auto; padding: 32px 20px 72px; }
-.hero { padding: 40px 0 24px; }
+a:hover { opacity: .85; }
+code { font-size: 12px; }
+.wrapper { max-width: 1100px; margin: 0 auto; padding: 28px 20px 64px; }
+.hero { padding: 24px 0 10px; }
 .kicker { text-transform: uppercase; letter-spacing: .12em; color: var(--muted); font-size: 12px; font-weight: 700; }
-h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.05; margin: 12px 0 14px; }
-.lede { max-width: 720px; font-size: 1.1rem; color: var(--muted); }
-.badges { display:flex; flex-wrap:wrap; gap:10px; margin:20px 0 0; }
-.badge { border:1px solid var(--line); background: var(--card); border-radius:999px; padding:8px 12px; font-size:14px; }
-.section { margin-top: 42px; }
-.section h2 { font-size: 1.6rem; margin: 0 0 14px; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.05; margin: 12px 0 14px; max-width: 10ch; }
+.lede { max-width: 720px; font-size: 1.05rem; color: var(--muted); margin: 0; }
+.badges, .jump-links { display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 0; }
+.badge, .jump-links a { border:1px solid var(--line); background: var(--card); border-radius:999px; padding:8px 12px; font-size:14px; text-decoration:none; }
+.jump-links { margin-top: 12px; }
+.section { margin-top: 34px; }
+.section h2 { font-size: 1.45rem; margin: 0 0 12px; }
 .grid { display:grid; gap:16px; }
 .grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); }
+.grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); }
 .card { background: var(--card); border:1px solid var(--line); border-radius: 18px; padding: 18px; box-shadow: 0 1px 0 rgba(0,0,0,.03); }
-.card h3 { margin: 0 0 8px; font-size: 1.05rem; }
-.card p { margin: 0; color: var(--muted); }
+.card h3 { margin: 0 0 6px; font-size: 1rem; }
+.card p, .card ul { margin: 0; color: var(--muted); }
+.card ul { padding-left: 18px; }
+.table-wrap { overflow-x: auto; }
 table { width:100%; border-collapse: collapse; background: var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden; }
 th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align:left; vertical-align: top; }
 th { background: #f2ece0; font-size: 14px; }
@@ -67,20 +74,24 @@ tr:last-child td { border-bottom: none; }
 .score-ok { color: var(--ok); font-weight: 700; }
 .score-mid { color: var(--warn); font-weight: 700; }
 .score-bad { color: var(--bad); font-weight: 700; }
-.gallery { display:grid; gap:20px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.gallery { display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 .figure { background: var(--card); border:1px solid var(--line); border-radius:18px; padding:14px; }
 .figure .image-link { display:block; }
-.figure img { width:100%; height:auto; border-radius:12px; display:block; background:#fff; }
+.figure img { width:100%; height:auto; border-radius:12px; display:block; background:#fff; aspect-ratio: 4 / 3; object-fit: cover; }
 .figure h3 { margin: 12px 0 6px; font-size: 1rem; }
-.figure code { font-size: 12px; }
-.figure p { margin: 0 0 8px; }
-.table-wrap { overflow-x: auto; }
-.item-results { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
-.item-results h4 { margin: 0 0 8px; font-size: .95rem; }
-.item-results ul { margin: 0; padding-left: 18px; }
+.figure p { margin: 0 0 6px; }
+.meta { color: var(--muted); font-size: 14px; }
+.summary-line { margin-top: 10px; font-size: 14px; color: var(--muted); }
+details { margin-top: 10px; }
+details summary { cursor: pointer; font-weight: 600; color: var(--accent); }
+.item-results ul { margin: 8px 0 0; padding-left: 18px; }
 .item-results li { margin: 0 0 4px; }
-.footer { margin-top: 60px; color: var(--muted); font-size: 14px; }
-@media (max-width: 640px) { .wrapper { padding-inline: 14px; } th, td { padding:10px; } }
+.footer { margin-top: 52px; color: var(--muted); font-size: 14px; }
+@media (max-width: 640px) {
+  .wrapper { padding-inline: 14px; }
+  th, td { padding: 10px; }
+  h1 { max-width: none; }
+}
 """
 
 
@@ -127,8 +138,9 @@ def render_answer(item: dict) -> str:
     return html.escape(text)
 
 
-def build_item_results(dataset: list[dict], snapshots: list[tuple[str, dict]]) -> dict[str, list[str]]:
+def summarize_item_results(dataset: list[dict], snapshots: list[tuple[str, dict]]) -> tuple[dict[str, list[str]], dict[str, dict]]:
     by_item = {row['id']: [] for row in dataset}
+    summary = {row['id']: {'correct': 0, 'partial': 0, 'incorrect': 0, 'total': 0} for row in dataset}
     for label, snapshot in snapshots:
         for result in snapshot['results']:
             model_ref = result['model_ref']
@@ -137,13 +149,56 @@ def build_item_results(dataset: list[dict], snapshots: list[tuple[str, dict]]) -
                 if item_id not in by_item:
                     continue
                 score_label = item.get('score_label', 'incorrect')
+                summary[item_id]['total'] += 1
+                summary[item_id][score_label] = summary[item_id].get(score_label, 0) + 1
                 by_item[item_id].append(
                     f'<li><code>{html.escape(model_ref)}</code> '
                     f'<span class="{item_status_class(score_label)}">{html.escape(score_label)}</span> '
                     f'· answer: <code>{render_answer(item)}</code> '
                     f'· snapshot: {html.escape(label)}</li>'
                 )
-    return by_item
+    return by_item, summary
+
+
+def toughest_rows(dataset: list[dict], item_summary: dict[str, dict]) -> list[str]:
+    rows = []
+    ordered = sorted(dataset, key=lambda row: (-item_summary[row['id']]['incorrect'], -item_summary[row['id']]['partial'], row['id']))
+    for row in ordered[:6]:
+        s = item_summary[row['id']]
+        rows.append(
+            f"<tr><td><code>{html.escape(row['id'])}</code></td>"
+            f"<td>{html.escape(row['prompt'])}</td>"
+            f"<td>{s['correct']} correct / {s['total']}</td>"
+            f"<td>{s['incorrect']} misses</td></tr>"
+        )
+    return rows
+
+
+def artifact_links() -> str:
+    groups = [
+        ('Main 14-item snapshot', [
+            ('JSON', 'results/livefire-may-2026.json'),
+            ('CSV', 'results/livefire-may-2026.csv'),
+            ('Markdown', 'results/livefire-may-2026.md'),
+            ('OpenTimestamps', 'results/livefire-may-2026.json.ots'),
+        ]),
+        ('OpenAI frontier snapshot', [
+            ('JSON', 'results/livefire-openai-gpt5x-2026-05-26.json'),
+            ('CSV', 'results/livefire-openai-gpt5x-2026-05-26.csv'),
+            ('Markdown', 'results/livefire-openai-gpt5x-2026-05-26.md'),
+            ('OpenTimestamps', 'results/livefire-openai-gpt5x-2026-05-26.json.ots'),
+        ]),
+        ('Claude compatibility snapshot', [
+            ('JSON', 'results/claude-may-2026.json'),
+            ('Markdown', 'results/claude-may-2026.md'),
+            ('OpenTimestamps', 'results/claude-may-2026.json.ots'),
+        ]),
+    ]
+    out = []
+    for title, links in groups:
+        items = ' · '.join(f'<a href="{href}">{label}</a>' for label, href in links)
+        out.append(f'<li><strong>{title}:</strong> {items}</li>')
+    return '<ul>' + ''.join(out) + '</ul>'
 
 
 def main() -> None:
@@ -166,21 +221,14 @@ def main() -> None:
 
     (SITE / 'CNAME').write_text(CUSTOM_DOMAIN + '\n', encoding='utf-8')
 
-    snapshots = [
-        ('main-14', harness),
-        ('openai-14', openai_frontier),
-        ('claude-10', claude),
-    ]
-    item_results = build_item_results(dataset, snapshots)
+    snapshots = [('main-14', harness), ('openai-14', openai_frontier), ('claude-10', claude)]
+    item_results, item_summary = summarize_item_results(dataset, snapshots)
 
-    leaderboard_rows = []
     ordered_results = sorted(
         harness['results'],
-        key=lambda result: (
-            -(result.get('correct', 0) / max(result.get('total_items', 1), 1)),
-            result.get('model_ref', ''),
-        ),
+        key=lambda result: (-(result.get('correct', 0) / max(result.get('total_items', 1), 1)), result.get('model_ref', '')),
     )
+    leaderboard_rows = []
     for result in ordered_results:
         misses = [item['item_id'] for item in result['items'] if item['score_label'] != 'correct']
         leaderboard_rows.append(
@@ -202,103 +250,114 @@ def main() -> None:
     for row in dataset:
         image_name = Path(row['image_path']).name
         results_html = ''.join(item_results.get(row['id'], [])) or '<li>No checked-in model rows for this item.</li>'
+        s = item_summary[row['id']]
         gallery.append(
-            f"<article class=\"figure\">"
+            f"<article class=\"figure\" id=\"{html.escape(row['id'])}\">"
             f"<a class=\"image-link\" href=\"images/{html.escape(image_name)}\"><img loading=\"lazy\" src=\"images/{html.escape(image_name)}\" alt=\"{html.escape(row['id'])} benchmark image\"></a>"
             f"<h3>{html.escape(row['id'])} — {html.escape(row['category'])}</h3>"
             f"<p><strong>Prompt:</strong> {html.escape(row['prompt'])}</p>"
             f"<p><strong>Expected:</strong> <code>{html.escape(row['expected'])}</code></p>"
-            f"<p>{html.escape(row.get('notes', ''))}</p>"
-            f"<div class=\"item-results\"><h4>Checked-in per-model results</h4><ul>{results_html}</ul></div>"
+            f"<p class=\"meta\">{html.escape(row.get('notes', ''))}</p>"
+            f"<p class=\"summary-line\">{s['correct']} correct · {s['partial']} partial · {s['incorrect']} incorrect across {s['total']} checked-in model rows.</p>"
+            f"<details class=\"item-results\"><summary>Show per-model results</summary><ul>{results_html}</ul></details>"
             f"</article>"
         )
 
-    html_out = f"""<!doctype html>
-<html lang=\"en\">
+    html_out = f'''<!doctype html>
+<html lang="en">
 <head>
-  <meta charset=\"utf-8\">
-  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-  <title>Shibboleth Bench — Visual Anomaly Benchmark for Multimodal Models</title>
-  <meta name=\"description\" content=\"Static site for the Shibboleth benchmark dataset and checked-in result snapshots.\">
-  <meta property=\"og:title\" content=\"Shibboleth Bench\">
-  <meta property=\"og:description\" content=\"Dataset, benchmark items, and checked-in result snapshots for Shibboleth Bench.\">
-  <meta property=\"og:image\" content=\"https://shibboleth.spitfirecowboy.com/images/two-hat-logo.png\">
-  <meta property=\"og:url\" content=\"https://shibboleth.spitfirecowboy.com/\">
-  <meta name=\"twitter:card\" content=\"summary_large_image\">
-  <script defer data-domain=\"shibboleth.spitfirecowboy.com\" src=\"https://analytics.spitfirecowboy.com/js/script.js\"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shibboleth Bench — Visual anomaly benchmark</title>
+  <meta name="description" content="Checked-in dataset, benchmark items, and result snapshots for Shibboleth Bench.">
+  <meta property="og:title" content="Shibboleth Bench">
+  <meta property="og:description" content="Checked-in dataset and result snapshots for a compact visual anomaly benchmark.">
+  <meta property="og:image" content="https://shibboleth.spitfirecowboy.com/images/two-hat-logo.png">
+  <meta property="og:url" content="https://shibboleth.spitfirecowboy.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <script defer data-domain="shibboleth.spitfirecowboy.com" src="https://analytics.spitfirecowboy.com/js/script.js"></script>
   <style>{CSS}</style>
 </head>
 <body>
-  <main class=\"wrapper\">
-    <section class=\"hero\">
-      <div class=\"kicker\">Visual anomaly benchmark · {len(dataset)} items · May 2026</div>
-      <h1>Checked-in results for a small visual anomaly benchmark</h1>
-      <p class=\"lede\">This site publishes the current dataset, benchmark items, and checked-in model snapshots for Shibboleth Bench.</p>
-      <div class=\"badges\">
-        <span class=\"badge\">{len(dataset)} benchmark items</span>
-        <span class=\"badge\">Apache 2.0</span>
-        <span class=\"badge\">Dataset SHA {html.escape(harness['dataset_sha256'][:12])}…</span>
+  <main class="wrapper">
+    <section class="hero">
+      <div class="kicker">Visual anomaly benchmark · {len(dataset)} items · May 2026</div>
+      <h1>A compact benchmark for obvious multimodal misses</h1>
+      <p class="lede">This page is the human-readable front door for Shibboleth Bench: current checked-in snapshots, the hardest items, and the full item gallery with per-model results hidden until you want them.</p>
+      <div class="badges">
+        <span class="badge">{len(dataset)} benchmark items</span>
+        <span class="badge">Apache 2.0</span>
+        <span class="badge">Dataset SHA {html.escape(harness['dataset_sha256'][:12])}…</span>
+      </div>
+      <nav class="jump-links">
+        <a href="#results">Results</a>
+        <a href="#hardest">Hardest items</a>
+        <a href="#items">All items</a>
+        <a href="#artifacts">Artifacts</a>
+      </nav>
+    </section>
+
+    <section class="section grid cols-3">
+      <article class="card"><h3>What it is</h3><p>A small benchmark for counting errors, mirror/reflection mismatches, malformed text, attachment failures, and other visible anomalies.</p></article>
+      <article class="card"><h3>What it is not</h3><p>Not a general multimodal score. Every claim here is only about this checked-in dataset and these checked-in snapshots.</p></article>
+      <article class="card"><h3>How to read it</h3><p>Start with the snapshot tables. Then use the hardest-items table. Open per-item details only when you need the model-by-model rows.</p></article>
+    </section>
+
+    <section class="section" id="results">
+      <h2>Current snapshots</h2>
+      <div class="grid cols-2">
+        <article>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th colspan="3">Main 14-item snapshot</th></tr><tr><th>Model</th><th>Score</th><th>Misses</th></tr></thead>
+              <tbody>{''.join(leaderboard_rows)}</tbody>
+            </table>
+          </div>
+        </article>
+        <article>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th colspan="3">Claude compatibility snapshot (10 items)</th></tr><tr><th>Model</th><th>Score</th><th>Misses</th></tr></thead>
+              <tbody>{''.join(claude_rows)}</tbody>
+            </table>
+          </div>
+        </article>
       </div>
     </section>
 
-    <section class=\"section\">
-      <h2>Latest May 2026 results</h2>
-      <div class=\"table-wrap\">
-      <table>
-        <thead><tr><th>Model</th><th>Score</th><th>Misses</th></tr></thead>
-        <tbody>{''.join(leaderboard_rows)}</tbody>
-      </table>
+    <section class="section" id="hardest">
+      <h2>Where models struggled most</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Prompt</th><th>Correct rows</th><th>Misses</th></tr></thead>
+          <tbody>{''.join(toughest_rows(dataset, item_summary))}</tbody>
+        </table>
       </div>
     </section>
 
-    <section class=\"section\">
-      <h2>Claude compatibility snapshot</h2>
-      <div class=\"table-wrap\">
-      <table>
-        <thead><tr><th>Model</th><th>Score</th><th>Misses</th></tr></thead>
-        <tbody>{''.join(claude_rows)}</tbody>
-      </table>
-      </div>
-      <p class=\"lede\" style=\"font-size:1rem; margin-top:12px;\">This Claude snapshot covers SB-001 through SB-010 and is published separately from the 14-item harness snapshots.</p>
+    <section class="section grid cols-2">
+      <article class="card"><h3>Method</h3><p>Models answer with strict JSON. Raw responses, parsed answers, and grader outcomes are all preserved in the checked-in snapshots.</p></article>
+      <article class="card"><h3>Dataset shape</h3><p>Nine items are self-authored synthetic probes. Five are photographic derivatives built from public-domain source photos.</p></article>
     </section>
 
-    <section class=\"section grid cols-2\">
-      <article class=\"card\">
-        <h3>What this benchmark is</h3>
-        <p>A 14-item benchmark covering mirror mismatches, reflections, malformed text, finger counts, attachment failures, repeated objects, and lighting contradictions.</p>
-      </article>
-      <article class=\"card\">
-        <h3>What this benchmark is not</h3>
-        <p>Not a general multimodal evaluation. These pages summarize checked-in results for this dataset only.</p>
-      </article>
+    <section class="section" id="items">
+      <h2>All benchmark items</h2>
+      <div class="gallery">{''.join(gallery)}</div>
     </section>
 
-    <section class=\"section\">
-      <h2>Method</h2>
-      <div class=\"grid cols-2\">
-        <article class=\"card\"><h3>Structured grading</h3><p>Models are prompted for strict JSON answers, with raw responses and parsed answers preserved alongside the grader result.</p></article>
-        <article class=\"card\"><h3>Controlled probes</h3><p>Nine of the fourteen current items are self-authored synthetic probe images designed to be simple, legible, and easy to score consistently. The rest are photographic derivatives built from public-domain source photos.</p></article>
-      </div>
-    </section>
-
-    <section class=\"section\">
-      <h2>Benchmark items</h2>
-      <div class=\"gallery\">{''.join(gallery)}</div>
-    </section>
-
-    <section class=\"section\">
+    <section class="section" id="artifacts">
       <h2>Artifacts</h2>
-      <div class=\"grid cols-2\">
-        <article class=\"card\"><h3>Machine-readable results</h3><p><a href=\"results/livefire-may-2026.json\">May 2026 JSON snapshot</a><br><a href=\"results/livefire-may-2026.csv\">May 2026 CSV summary</a><br><a href=\"results/livefire-may-2026.md\">May 2026 Markdown summary</a><br><a href=\"results/livefire-may-2026.json.ots\">May 2026 OpenTimestamps proof</a><br><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.json\">OpenAI frontier JSON snapshot</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.csv\">OpenAI frontier CSV summary</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.md\">OpenAI frontier Markdown summary</a><br><a href=\"results/livefire-openai-gpt5x-2026-05-26.json.ots\">OpenAI frontier OpenTimestamps proof</a><br><br><a href=\"results/claude-may-2026.json\">Claude 10-item JSON snapshot</a><br><a href=\"results/claude-may-2026.md\">Claude 10-item Markdown summary</a><br><a href=\"results/claude-may-2026.json.ots\">Claude OpenTimestamps proof</a></p></article>
-        <article class=\"card\"><h3>Repository</h3><p><a href=\"https://github.com/Spitfire-Cowboy/shibboleth-bench\">View on GitHub</a><br><a href=\"results/claude-may-2026.md\">Claude snapshot summary</a></p></article>
+      <div class="grid cols-2">
+        <article class="card"><h3>Machine-readable snapshots</h3>{artifact_links()}</article>
+        <article class="card"><h3>Repository</h3><p><a href="https://github.com/Spitfire-Cowboy/shibboleth-bench">View on GitHub</a></p></article>
       </div>
     </section>
 
-    <footer class=\"footer\">Repository, dataset, and checked-in result snapshots. · <a href=\"https://github.com/Spitfire-Cowboy/shibboleth-bench\">GitHub</a> · <a href=\"https://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0</a></footer>
+    <footer class="footer">Repository, dataset, and checked-in result snapshots. · <a href="https://github.com/Spitfire-Cowboy/shibboleth-bench">GitHub</a> · <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a></footer>
   </main>
 </body>
 </html>
-"""
+'''
     (SITE / 'index.html').write_text(html_out, encoding='utf-8')
 
 
