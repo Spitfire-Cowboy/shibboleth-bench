@@ -152,13 +152,12 @@ def main() -> None:
       <div class=\"badges\">
         <span class=\"badge\">{len(dataset)} benchmark items</span>
         <span class=\"badge\">Apache 2.0</span>
-        <span class=\"badge\">Published snapshot SHA {html.escape(results['dataset_sha256'][:12])}…</span>
+        <span class=\"badge\">Dataset SHA {html.escape(results['dataset_sha256'][:12])}…</span>
       </div>
     </section>
 
     <section class=\"section\">
       <h2>Latest May 2026 results</h2>
-      <p class=\"lede\">This published snapshot still uses the original 10-item public corpus. The current dataset in <code>main</code> has additional photographic probes that are ready for the next livefire pass.</p>
       <div class=\"table-wrap\">
       <table>
         <thead><tr><th>Model</th><th>Score</th><th>Misses</th></tr></thead>

@@ -20,17 +20,15 @@ Shibboleth is a narrow benchmark, not a full evaluation stack. It compares model
 - **Latest JSON snapshot:** `results/livefire-may-2026.json`
 - **Latest CSV snapshot:** `results/livefire-may-2026.csv`
 
-## 🧪 Latest published May 2026 snapshot
-
-This published snapshot still reflects the original 10-item public corpus. The dataset in `main` has since been expanded with additional photographic probes.
+## 🧪 Latest May 2026 snapshot
 
 | Model | Score | Misses |
 | --- | ---: | --- |
-| `openai/gpt-4o` | 10 / 10 | none |
-| `openai/gpt-4.1` | 9 / 10 | `SB-001` |
-| `openai/gpt-4o-mini` | 9 / 10 | `SB-001` |
-| `xai/grok-4.3` | 9 / 10 | `SB-001` |
-| `openai/gpt-5` | 7 / 10 | `SB-001`, `SB-005`, `SB-008` |
+| `openai/gpt-4.1` | 12 / 14 | `SB-012`, `SB-013` |
+| `openai/gpt-4o` | 12 / 14 | `SB-012`, `SB-013` |
+| `openai/gpt-4o-mini` | 12 / 14 | `SB-012`, `SB-013` |
+| `xai/grok-4.3` | 11 / 14 | `SB-001`, `SB-013`, `SB-014` |
+| `openai/gpt-5` | 7 / 14 | `SB-001`, `SB-004`, `SB-005`, `SB-011`, `SB-012`, `SB-013`, `SB-014` |
 
 Additional OpenAI frontier snapshot:
 - `results/livefire-openai-gpt5x-2026-05-26.json`

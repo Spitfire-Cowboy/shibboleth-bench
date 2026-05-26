@@ -1,46 +1,46 @@
 {
   "dataset": "dataset/items.jsonl",
-  "dataset_sha256": "a5dec043acfcaef1f157355fc1bc3d947742760d51272d59afb9152ca4601f79",
-  "run_at": "2026-05-26T12:32:50.252543+00:00",
+  "dataset_sha256": "8eeb9bae57d81c014516df62eef48fc9a11471214148cf4fdecd4e252a714d31",
+  "run_at": "2026-05-26T13:45:17.446751+00:00",
   "prompt_protocol": "structured-json-v1",
   "results": [
     {
       "model": "gpt-4.1",
-      "total_items": 10,
-      "correct": 9,
+      "total_items": 14,
+      "correct": 12,
       "partial": 0,
-      "incorrect": 1,
-      "accuracy": 0.9,
-      "partial_credit_score": 0.9,
-      "latency_mean_ms": 1160.3,
-      "latency_p50_ms": 1046.0,
+      "incorrect": 2,
+      "accuracy": 0.8571,
+      "partial_credit_score": 0.8571,
+      "latency_mean_ms": 1431.1,
+      "latency_p50_ms": 1195.5,
       "items": [
         {
           "item_id": "SB-001",
-          "response": "{\n  \"answer\": \"one\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The person is holding one hat in their hand and also wearing a hat with goggles, but only the hat on the head is being worn.\"\n}",
-          "parsed_answer": "one",
+          "response": "{\n  \"answer\": \"two\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The person is wearing one hat on their head and holding another hat in their hand.\"\n}",
+          "parsed_answer": "two",
           "parse_mode": "json",
-          "score": 0.0,
-          "score_label": "incorrect",
-          "latency_ms": 2297
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 1813
         },
         {
           "item_id": "SB-002",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The mirror reflection shows an extra hat on the figure's head, which does not match the real figure.\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The mirror reflection shows an extra hat on the figure that is not present on the real figure.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1211
+          "latency_ms": 1092
         },
         {
           "item_id": "SB-003",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"There are three buoys above water, but only two reflected below.\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"There are three buoys above the water, but only two buoys are reflected below the water.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 876
+          "latency_ms": 1030
         },
         {
           "item_id": "SB-004",
@@ -49,34 +49,34 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 858
+          "latency_ms": 1169
         },
         {
           "item_id": "SB-005",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The main sign text 'P1Z7A?' is not readable English; it contains numbers and a question mark in place of letters, making it unintelligible as an English word.\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The sign contains a mixture of letters, numbers, and a question mark, which does not form a recognizable English word.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1391
+          "latency_ms": 986
         },
         {
           "item_id": "SB-006",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"One glasses arm is detached and floating above the face instead of attaching.\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The right glasses arm is floating above the face instead of attaching to the glasses frame.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1139
+          "latency_ms": 1222
         },
         {
           "item_id": "SB-007",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The shadows from the two posts clearly fall in opposite directions.\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The shadows cast by the two posts fall in opposite directions.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1185
+          "latency_ms": 1117
         },
         {
           "item_id": "SB-008",
@@ -85,16 +85,16 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 816
+          "latency_ms": 1392
         },
         {
           "item_id": "SB-009",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The mug handle is floating apart from the mug and is not attached.\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The mug handle is floating apart and not attached to the mug.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 953
+          "latency_ms": 1073
         },
         {
           "item_id": "SB-010",
@@ -103,48 +103,84 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 877
+          "latency_ms": 873
+        },
+        {
+          "item_id": "SB-011",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The text contains numbers replacing letters, which does not constitute standard readable English.\"\n}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 1439
+        },
+        {
+          "item_id": "SB-012",
+          "response": "{\n  \"answer\": 1,\n  \"confidence\": \"certain\",\n  \"notes\": \"The man is wearing one hat, although the image is edited to show a repeated face, the hat only appears once.\"\n}",
+          "parsed_answer": "1",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 3075
+        },
+        {
+          "item_id": "SB-013",
+          "response": "{\n  \"answer\": 4,\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "4",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 1840
+        },
+        {
+          "item_id": "SB-014",
+          "response": "{\n  \"answer\": 3,\n  \"confidence\": \"certain\",\n  \"notes\": \"The bicycle in the image has three wheels attached: two large ones and one smaller wheel in the front middle area.\"\n}",
+          "parsed_answer": "3",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 1915
         }
       ],
       "model_ref": "openai/gpt-4.1"
     },
     {
       "model": "gpt-4o",
-      "total_items": 10,
-      "correct": 10,
+      "total_items": 14,
+      "correct": 12,
       "partial": 0,
-      "incorrect": 0,
-      "accuracy": 1.0,
-      "partial_credit_score": 1.0,
-      "latency_mean_ms": 1598.8,
-      "latency_p50_ms": 1413.5,
+      "incorrect": 2,
+      "accuracy": 0.8571,
+      "partial_credit_score": 0.8571,
+      "latency_mean_ms": 1610.1,
+      "latency_p50_ms": 1466.5,
       "items": [
         {
           "item_id": "SB-001",
-          "response": "{\"answer\":2,\"confidence\":\"certain\",\"notes\":\"The person is wearing one hat and holding another.\"}",
-          "parsed_answer": "2",
+          "response": "{\"answer\": \"two\", \"confidence\": \"certain\"}",
+          "parsed_answer": "two",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 2457
+          "latency_ms": 2292
         },
         {
           "item_id": "SB-002",
-          "response": "{\"answer\":\"no\",\"confidence\":\"certain\",\"notes\":\"The reflection has two hats, while the real figure has one.\"}",
+          "response": "{\"answer\":\"no\",\"confidence\":\"certain\",\"notes\":\"The reflection has an extra hat on top of the existing one.\"}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1742
+          "latency_ms": 1388
         },
         {
           "item_id": "SB-003",
-          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"There are three buoys above water, but only two reflected below.\"}",
+          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"Three buoys are above water, but only two are reflected.\"}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1399
+          "latency_ms": 1241
         },
         {
           "item_id": "SB-004",
@@ -153,43 +189,43 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1393
+          "latency_ms": 1798
         },
         {
           "item_id": "SB-005",
-          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"The text appears intentionally garbled.\"}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The text 'P1Z7A?' is intentionally garbled.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1817
+          "latency_ms": 1493
         },
         {
           "item_id": "SB-006",
-          "response": "{\"answer\": \"no\", \"confidence\": \"certain\", \"notes\": \"One glasses arm is detached.\"}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"One glasses arm is not attached correctly.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1275
+          "latency_ms": 1477
         },
         {
           "item_id": "SB-007",
-          "response": "{\"answer\":\"no\",\"confidence\":\"certain\",\"notes\":\"The image shows shadows cast in opposite directions.\"}",
+          "response": "{\"answer\":\"no\",\"confidence\":\"certain\"}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1253
+          "latency_ms": 1350
         },
         {
           "item_id": "SB-008",
-          "response": "{\"answer\":5,\"confidence\":\"certain\"}",
+          "response": "{\"answer\":5,\"confidence\":\"certain\",\"notes\":\"\"}",
           "parsed_answer": "5",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1428
+          "latency_ms": 1397
         },
         {
           "item_id": "SB-009",
@@ -198,7 +234,7 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1971
+          "latency_ms": 1431
         },
         {
           "item_id": "SB-010",
@@ -207,30 +243,66 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1253
+          "latency_ms": 1392
+        },
+        {
+          "item_id": "SB-011",
+          "response": "{\"answer\":\"no\",\"confidence\":\"certain\",\"notes\":\"The text uses numbers instead of letters, making it unreadable as standard English.\"}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 1514
+        },
+        {
+          "item_id": "SB-012",
+          "response": "{\"answer\":\"one\",\"confidence\":\"certain\",\"notes\":\"The image shows the man wearing one hat.\"}",
+          "parsed_answer": "one",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 2035
+        },
+        {
+          "item_id": "SB-013",
+          "response": "{\"answer\":4,\"confidence\":\"certain\"}",
+          "parsed_answer": "4",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 1456
+        },
+        {
+          "item_id": "SB-014",
+          "response": "{\"answer\": 3, \"confidence\": \"certain\", \"notes\": \"The image shows a bicycle with an extra wheel attached to it, making a total of three wheels.\"}",
+          "parsed_answer": "3",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 2277
         }
       ],
       "model_ref": "openai/gpt-4o"
     },
     {
       "model": "gpt-4o-mini",
-      "total_items": 10,
-      "correct": 9,
+      "total_items": 14,
+      "correct": 12,
       "partial": 0,
-      "incorrect": 1,
-      "accuracy": 0.9,
-      "partial_credit_score": 0.9,
-      "latency_mean_ms": 1708.8,
-      "latency_p50_ms": 1710.0,
+      "incorrect": 2,
+      "accuracy": 0.8571,
+      "partial_credit_score": 0.8571,
+      "latency_mean_ms": 2807.7,
+      "latency_p50_ms": 1647.5,
       "items": [
         {
           "item_id": "SB-001",
-          "response": "{\n  \"answer\": 1,\n  \"confidence\": \"certain\"\n}",
-          "parsed_answer": "1",
+          "response": "{\n  \"answer\": \"2\",\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "2",
           "parse_mode": "json",
-          "score": 0.0,
-          "score_label": "incorrect",
-          "latency_ms": 2085
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 5369
         },
         {
           "item_id": "SB-002",
@@ -239,16 +311,16 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1311
+          "latency_ms": 1353
         },
         {
           "item_id": "SB-003",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
+          "response": "{\"answer\":\"no\",\"confidence\":\"certain\",\"notes\":\"The reflection shows two buoys, while three are above water.\"}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 2163
+          "latency_ms": 1371
         },
         {
           "item_id": "SB-004",
@@ -257,25 +329,25 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1702
+          "latency_ms": 1297
         },
         {
           "item_id": "SB-005",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The sign contains a mix of characters that do not form a coherent word in English.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1216
+          "latency_ms": 1615
         },
         {
           "item_id": "SB-006",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"One glasses arm is detached and floats above the face.\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"One glasses arm is detached and not attached correctly.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1718
+          "latency_ms": 1486
         },
         {
           "item_id": "SB-007",
@@ -284,25 +356,25 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 2314
+          "latency_ms": 1577
         },
         {
           "item_id": "SB-008",
-          "response": "{\"answer\":5,\"confidence\":\"certain\"}",
+          "response": "{\n  \"answer\": 5,\n  \"confidence\": \"certain\"\n}",
           "parsed_answer": "5",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1320
+          "latency_ms": 1868
         },
         {
           "item_id": "SB-009",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The mug handle is shown floating apart from the mug.\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1764
+          "latency_ms": 1680
         },
         {
           "item_id": "SB-010",
@@ -311,21 +383,57 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1495
+          "latency_ms": 1468
+        },
+        {
+          "item_id": "SB-011",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 5915
+        },
+        {
+          "item_id": "SB-012",
+          "response": "{\n  \"answer\": 1,\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "1",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 7306
+        },
+        {
+          "item_id": "SB-013",
+          "response": "[ERROR: HTTP Error 429: Too Many Requests]",
+          "parsed_answer": "",
+          "parse_mode": "error",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 4595
+        },
+        {
+          "item_id": "SB-014",
+          "response": "{\n  \"answer\": 3,\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "3",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 2408
         }
       ],
       "model_ref": "openai/gpt-4o-mini"
     },
     {
       "model": "gpt-5",
-      "total_items": 10,
+      "total_items": 14,
       "correct": 7,
       "partial": 0,
-      "incorrect": 3,
-      "accuracy": 0.7,
-      "partial_credit_score": 0.7,
-      "latency_mean_ms": 5323.6,
-      "latency_p50_ms": 4067.5,
+      "incorrect": 7,
+      "accuracy": 0.5,
+      "partial_credit_score": 0.5,
+      "latency_mean_ms": 9906,
+      "latency_p50_ms": 5157.0,
       "items": [
         {
           "item_id": "SB-001",
@@ -334,183 +442,79 @@
           "parse_mode": "error",
           "score": 0.0,
           "score_label": "incorrect",
-          "latency_ms": 5463
+          "latency_ms": 6807
         },
         {
           "item_id": "SB-002",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The mirror shows an extra hat piece not present on the real figure.\"\n}",
-          "parsed_answer": "no",
-          "parse_mode": "json",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The mirror adds an extra hat/object that isn\u2019t",
+          "parsed_answer": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The mirror adds an extra hat/object that isn\u2019t",
+          "parse_mode": "freeform",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 3604
+          "latency_ms": 3071
         },
         {
           "item_id": "SB-003",
-          "response": "{\"answer\":\"no\",\"confidence\":\"certain\",\"notes\":\"Three buoys above water, only two reflected.\"}",
+          "response": "{\"answer\":\"no\",\"confidence\":\"certain\",\"notes\":\"Three buoys above water, two reflected below.\"}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 2352
+          "latency_ms": 3026
         },
         {
           "item_id": "SB-004",
-          "response": "{\"answer\":\"6\",\"confidence\":\"certain\"}",
-          "parsed_answer": "6",
-          "parse_mode": "json",
-          "score": 1.0,
-          "score_label": "correct",
-          "latency_ms": 2533
-        },
-        {
-          "item_id": "SB-005",
-          "response": "[ERROR: HTTP Error 500: Internal Server Error]",
-          "parsed_answer": "",
-          "parse_mode": "error",
-          "score": 0.0,
-          "score_label": "incorrect",
-          "latency_ms": 4531
-        },
-        {
-          "item_id": "SB-006",
-          "response": "{\"answer\":\"no\",\"confidence\":\"certain\",\"notes\":\"Right glasses arm is detached/floating; only the left side attaches.\"}",
-          "parsed_answer": "no",
-          "parse_mode": "json",
-          "score": 1.0,
-          "score_label": "correct",
-          "latency_ms": 7847
-        },
-        {
-          "item_id": "SB-007",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The two posts\u2019 shadows point in opposite directions.\"\n}",
-          "parsed_answer": "no",
-          "parse_mode": "json",
-          "score": 1.0,
-          "score_label": "correct",
-          "latency_ms": 3571
-        },
-        {
-          "item_id": "SB-008",
           "response": "[ERROR: empty output in response]",
           "parsed_answer": "",
           "parse_mode": "error",
           "score": 0.0,
           "score_label": "incorrect",
-          "latency_ms": 9272
-        },
-        {
-          "item_id": "SB-009",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The handle is floating separate from the mug body.\"\n}",
-          "parsed_answer": "no",
-          "parse_mode": "json",
-          "score": 1.0,
-          "score_label": "correct",
-          "latency_ms": 3365
-        },
-        {
-          "item_id": "SB-010",
-          "response": "{\"answer\":\"3\",\"confidence\":\"certain\"}",
-          "parsed_answer": "3",
-          "parse_mode": "json",
-          "score": 1.0,
-          "score_label": "correct",
-          "latency_ms": 10698
-        }
-      ],
-      "model_ref": "openai/gpt-5"
-    },
-    {
-      "model": "grok-4.3",
-      "total_items": 10,
-      "correct": 9,
-      "partial": 0,
-      "incorrect": 1,
-      "accuracy": 0.9,
-      "partial_credit_score": 0.9,
-      "latency_mean_ms": 2755.9,
-      "latency_p50_ms": 2323.0,
-      "items": [
-        {
-          "item_id": "SB-001",
-          "response": "{\n  \"answer\": \"1\",\n  \"confidence\": \"certain\"\n}",
-          "parsed_answer": "1",
-          "parse_mode": "json",
-          "score": 0.0,
-          "score_label": "incorrect",
-          "latency_ms": 5328
-        },
-        {
-          "item_id": "SB-002",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
-          "parsed_answer": "no",
-          "parse_mode": "json",
-          "score": 1.0,
-          "score_label": "correct",
-          "latency_ms": 2756
-        },
-        {
-          "item_id": "SB-003",
-          "response": "{\n\"answer\": \"no\",\n\"confidence\": \"certain\"\n}",
-          "parsed_answer": "no",
-          "parse_mode": "json",
-          "score": 1.0,
-          "score_label": "correct",
-          "latency_ms": 1555
-        },
-        {
-          "item_id": "SB-004",
-          "response": "{\n  \"answer\": \"6\",\n  \"confidence\": \"certain\",\n  \"notes\": \"Image depicts six digits raised in a row (plus separate thumb)\"\n}",
-          "parsed_answer": "6",
-          "parse_mode": "json",
-          "score": 1.0,
-          "score_label": "correct",
-          "latency_ms": 3095
+          "latency_ms": 2860
         },
         {
           "item_id": "SB-005",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"Sign text is explicitly labeled and depicted as garbled/malformed.\"\n}",
-          "parsed_answer": "no",
-          "parse_mode": "json",
-          "score": 1.0,
-          "score_label": "correct",
-          "latency_ms": 4358
+          "response": "[ERROR: empty output in response]",
+          "parsed_answer": "",
+          "parse_mode": "error",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 71518
         },
         {
           "item_id": "SB-006",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The right glasses arm is detached and floating.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 2201
+          "latency_ms": 8189
         },
         {
           "item_id": "SB-007",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"Image explicitly shows and labels shadows cast in opposite directions.\"\n}",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"They point in opposite directions.\"\n}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 1444
+          "latency_ms": 5096
         },
         {
           "item_id": "SB-008",
-          "response": "{\n\"answer\": 5,\n\"confidence\": \"certain\"\n}",
+          "response": "{\n  \"answer\": 5,\n  \"confidence\": \"certain\"\n}",
           "parsed_answer": "5",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 2201
+          "latency_ms": 6206
         },
         {
           "item_id": "SB-009",
-          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
+          "response": "{\"answer\":\"no\",\"confidence\":\"certain\",\"notes\":\"The handle is detached and floating beside the mug instead of attached.\"}",
           "parsed_answer": "no",
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 2176
+          "latency_ms": 3046
         },
         {
           "item_id": "SB-010",
@@ -519,7 +523,183 @@
           "parse_mode": "json",
           "score": 1.0,
           "score_label": "correct",
-          "latency_ms": 2445
+          "latency_ms": 2122
+        },
+        {
+          "item_id": "SB-011",
+          "response": "{\"answer",
+          "parsed_answer": "{\"answer",
+          "parse_mode": "freeform",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 5218
+        },
+        {
+          "item_id": "SB-012",
+          "response": "[ERROR: empty output in response]",
+          "parsed_answer": "",
+          "parse_mode": "error",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 4718
+        },
+        {
+          "item_id": "SB-013",
+          "response": "[ERROR: empty output in response]",
+          "parsed_answer": "",
+          "parse_mode": "error",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 9359
+        },
+        {
+          "item_id": "SB-014",
+          "response": "[ERROR: empty output in response]",
+          "parsed_answer": "",
+          "parse_mode": "error",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 7448
+        }
+      ],
+      "model_ref": "openai/gpt-5"
+    },
+    {
+      "model": "grok-4.3",
+      "total_items": 14,
+      "correct": 11,
+      "partial": 0,
+      "incorrect": 3,
+      "accuracy": 0.7857,
+      "partial_credit_score": 0.7857,
+      "latency_mean_ms": 11548.3,
+      "latency_p50_ms": 6247.5,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "{\n  \"answer\": \"1\",\n  \"confidence\": \"certain\",\n  \"notes\": \"One cowboy hat is on the person's head (being worn); the second similar hat is held in the raised hand (not worn).\"\n}",
+          "parsed_answer": "1",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 81731
+        },
+        {
+          "item_id": "SB-002",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"Image labeled 'mirror mismatch' shows incorrect hat positions/orientations in reflection.\"\n}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 8694
+        },
+        {
+          "item_id": "SB-003",
+          "response": "{\n\"answer\": \"no\",\n\"confidence\": \"certain\"\n}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 2288
+        },
+        {
+          "item_id": "SB-004",
+          "response": "{\"answer\": \"6\", \"confidence\": \"certain\"}",
+          "parsed_answer": "6",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 10774
+        },
+        {
+          "item_id": "SB-005",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\",\n  \"notes\": \"Sign text is intentionally garbled/malformed as P1Z7A?\"\n}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 4472
+        },
+        {
+          "item_id": "SB-006",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 5893
+        },
+        {
+          "item_id": "SB-007",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 4438
+        },
+        {
+          "item_id": "SB-008",
+          "response": "{\n  \"answer\": 5,\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "5",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 2657
+        },
+        {
+          "item_id": "SB-009",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 2382
+        },
+        {
+          "item_id": "SB-010",
+          "response": "{\"answer\": 3, \"confidence\": \"certain\"}",
+          "parsed_answer": "3",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 6602
+        },
+        {
+          "item_id": "SB-011",
+          "response": "{\n  \"answer\": \"no\",\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "no",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 6771
+        },
+        {
+          "item_id": "SB-012",
+          "response": "{\n  \"answer\": \"2\",\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "2",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 12796
+        },
+        {
+          "item_id": "SB-013",
+          "response": "{\n  \"answer\": \"4\",\n  \"confidence\": \"certain\",\n  \"notes\": \"Four distinct wooden chairs visible: one left, one back, two right side.\"\n}",
+          "parsed_answer": "4",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 7476
+        },
+        {
+          "item_id": "SB-014",
+          "response": "{\n  \"answer\": 2,\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "2",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 4702
         }
       ],
       "model_ref": "xai/grok-4.3"
