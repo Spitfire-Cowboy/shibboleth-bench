@@ -167,16 +167,27 @@ Suggested prompt styles:
 - `Are both ears shaped normally?`
 - `Does the smile show a normal number of visible teeth?`
 
+## Current coverage
+
+Already represented in the checked-in dataset:
+- hands / finger count
+- mirror mismatch
+- water reflection mismatch
+- malformed sign text
+- accessory asymmetry / detached glasses
+- repeated-object counting
+- shadow contradiction
+- object continuity / attachment
+- transparent-object counting
+
 ## Recommended next dataset build order
 
-1. **Hands / finger count**
-2. **Mirror mismatch**
-3. **Water or glossy reflection mismatch**
-4. **Malformed sign text**
-5. **Glasses / earring asymmetry**
-6. **Repeated-object counting**
-7. **Shadow contradiction**
-8. **Object continuity / attachment**
+1. **More naturalistic mirror and reflection scenes**
+2. **Accessory symmetry variants (earrings, watches, straps)**
+3. **Transparent-object plausibility beyond simple counting**
+4. **Wheel / window / repeated-structure counting**
+5. **Face-side consistency probes**
+6. **More realistic lighting contradictions**
 
 ## Acquisition guidance
 

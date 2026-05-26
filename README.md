@@ -4,7 +4,7 @@ A small Apache 2.0 benchmark harness for **visual anomaly screening** in multimo
 
 Shibboleth is meant to answer a narrow question quickly:
 
-> Does this model miss obvious image-generation mistakes or discrete-object counting failures?
+> Does this model miss obvious image-generation mistakes or discrete-object anomalies?
 
 It is a **screening benchmark**, not a full model evaluation stack.
 
@@ -13,7 +13,7 @@ It is a **screening benchmark**, not a full model evaluation stack.
 Many multimodal models look impressive in broad demos while still failing on narrow, high-signal visual anomalies:
 - counting discrete objects incorrectly
 - misreading reflections or mirrored scenes
-- hallucinating text, hands, or accessories
+- missing malformed text, attachment failures, or lighting contradictions
 - giving confident answers to obviously wrong interpretations
 
 The goal here is to filter out weak candidates before spending time on deeper evals.
@@ -27,24 +27,30 @@ The goal here is to filter out weak candidates before spending time on deeper ev
   - OpenRouter
   - OpenAI
   - xAI
-- checked-in benchmark dataset: **still tiny**
+- checked-in benchmark dataset: **10 items**
 - current benchmark scope: **prototype / screening**, not a broad leaderboard
 
-## Canonical benchmark item
+## Current dataset
 
-Current dataset includes:
-- `SB-001` — the canonical **two-hat** image
+The benchmark currently includes ten high-signal probes:
 
-Source image:
-- `dataset/images/two-hat-logo.png`
+- `SB-001` — two-hat count
+- `SB-002` — mirror mismatch
+- `SB-003` — water reflection mismatch
+- `SB-004` — six-finger hand
+- `SB-005` — garbled sign text
+- `SB-006` — detached glasses arm
+- `SB-007` — shadow direction mismatch
+- `SB-008` — repeated chair count
+- `SB-009` — detached mug handle
+- `SB-010` — transparent glasses count
 
-Prompt:
-- `How many hats is the person wearing?`
+Most of these are **self-authored synthetic probe images** designed to be simple, legible, and easy to score.
 
-Expected answer:
-- `two`
-
-This is intentionally simple and high-signal.
+See:
+- `dataset/items.jsonl`
+- `dataset/PROVENANCE.md`
+- `scripts/generate_synthetic_assets.py`
 
 ## Quick start
 
@@ -98,7 +104,7 @@ python3 run_matrix.py \
 
 ## Output contract
 
-Each run now records:
+Each run records:
 - exact model ref
 - dataset path
 - dataset SHA-256
@@ -113,7 +119,7 @@ This makes results more reproducible and easier to audit.
 
 ## Grading model
 
-The harness now asks models to return strict JSON:
+The harness asks models to return strict JSON:
 
 ```json
 {"answer":"two","confidence":"certain","notes":"..."}
@@ -129,7 +135,9 @@ The grader still falls back to freeform parsing when needed, but the preferred p
 ## Current repo layout
 
 - `dataset/items.jsonl` — benchmark item manifest
-- `dataset/images/` — local benchmark images
+- `dataset/images/` — benchmark images
+- `dataset/PROVENANCE.md` — asset provenance notes
+- `scripts/generate_synthetic_assets.py` — reproducible synthetic asset generator
 - `eval.py` — single-model runner and grading harness
 - `run_matrix.py` — multi-model batch runner
 - `results/` — checked-in benchmark snapshots
@@ -142,31 +150,35 @@ See:
 - `results/livefire-may-2026.json`
 - `results/livefire-may-2026.md`
 
-That snapshot reflects direct vendor runs in May 2026 rather than older OpenRouter-only results.
+Current May 2026 snapshot highlights:
+- `openai/gpt-4o` — **10/10**
+- `openai/gpt-4.1` — **9/10**
+- `openai/gpt-4o-mini` — **9/10**
+- `xai/grok-4.3` — **9/10**
+- `openai/gpt-5` — **7/10**
 
 ## Benchmark limitations
 
 This repo is intentionally small, and that means the current results have real limits:
 
-- one benchmark item is not enough for strong claims
-- model answers can still fail in ways the parser does not perfectly normalize
-- live model catalogs change over time
+- ten items is still a small benchmark
+- most items are synthetic probes, not naturalistic photographs
+- live model behavior changes over time
 - passing this benchmark does **not** imply general multimodal competence
 
 Treat Shibboleth as a **cheap screen**, not a final verdict.
 
 ## Expansion plan
 
-The next important step is **dataset breadth**, not framework complexity.
+The next important step is still **dataset breadth**, not framework complexity.
 
 High-value future items include:
-- mirror/reflection anomalies
-- water/glass reflection anomalies
-- extra fingers / merged fingers / impossible hand poses
-- malformed text on signs, labels, and logos
-- asymmetrical jewelry or eyewear
-- impossible object duplication in repeated patterns
-- shadow / lighting contradictions
+- more mirror and glossy-surface probes
+- more hand and anatomy edge cases
+- signage and label reading variants
+- accessory symmetry and attachment failures
+- repeated-object counting scenes
+- shadow / lighting contradictions in more natural settings
 
 See `docs/edge-cases.md` for the researched list.
 
