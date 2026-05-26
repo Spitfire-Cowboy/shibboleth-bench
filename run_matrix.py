@@ -6,11 +6,22 @@ import json
 import sys
 import urllib.request
 from dataclasses import asdict
+from datetime import datetime, timezone
 from pathlib import Path
 
 import eval as bench
 
 ROOT = Path(__file__).resolve().parent
+
+MAY_2026_OPENAI_MODELS = [
+    "openai/gpt-4.1",
+    "openai/gpt-4o",
+    "openai/gpt-4o-mini",
+    "openai/gpt-5",
+]
+MAY_2026_XAI_MODELS = [
+    "xai/grok-4.3",
+]
 
 
 def fetch_openrouter_models() -> list[dict]:
@@ -61,13 +72,15 @@ def run_for_model(model: str, args, items: list[bench.Item]) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run the two-hat matrix across multiple models.")
+    parser = argparse.ArgumentParser(description="Run the Shibboleth matrix across multiple models.")
     parser.add_argument("--dataset", type=Path, default=ROOT / "dataset" / "items.jsonl")
     parser.add_argument("--ollama-host", default="http://127.0.0.1:11434")
     parser.add_argument("--ollama-think", choices=("default", "true", "false"), default="default")
     parser.add_argument("--timeout-s", type=int, default=120)
     parser.add_argument("--free-openrouter-vision", action="store_true")
-    parser.add_argument("--model", action="append", default=[], help="Model ref, e.g. openrouter/google/gemma-3-27b-it:free")
+    parser.add_argument("--may-2026-openai", action="store_true")
+    parser.add_argument("--may-2026-xai", action="store_true")
+    parser.add_argument("--model", action="append", default=[], help="Model ref, e.g. openai/gpt-4.1")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
@@ -79,6 +92,11 @@ def main() -> int:
     models = list(args.model)
     if args.free_openrouter_vision:
         models.extend(f"openrouter/{model}" for model in free_openrouter_vision_models())
+    if args.may_2026_openai:
+        models.extend(MAY_2026_OPENAI_MODELS)
+    if args.may_2026_xai:
+        models.extend(MAY_2026_XAI_MODELS)
+
     deduped_models = []
     seen = set()
     for model in models:
@@ -90,11 +108,18 @@ def main() -> int:
         return 2
 
     results = [run_for_model(model, args, items) for model in deduped_models]
-    payload = json.dumps({"dataset": str(args.dataset), "results": results}, indent=2) + "\n"
+    payload = {
+        "dataset": bench.display_path(args.dataset),
+        "dataset_sha256": bench.dataset_sha256(args.dataset),
+        "run_at": datetime.now(timezone.utc).isoformat(),
+        "prompt_protocol": "structured-json-v1",
+        "results": results,
+    }
+    text = json.dumps(payload, indent=2) + "\n"
     if args.output:
-        args.output.write_text(payload, encoding="utf-8")
+        args.output.write_text(text, encoding="utf-8")
     else:
-        sys.stdout.write(payload)
+        sys.stdout.write(text)
     return 0
 
 

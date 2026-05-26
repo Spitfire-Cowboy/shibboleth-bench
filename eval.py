@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
 import json
 import mimetypes
 import os
@@ -12,7 +13,9 @@ import sys
 import time
 import urllib.request
 from dataclasses import asdict, dataclass
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 PARTIAL_KEYWORDS = ("maybe", "possibly", "might", "could be", "not sure", "uncertain")
 NUMBER_ALIASES = {
@@ -42,9 +45,19 @@ class Item:
 
 
 @dataclass
+class ParsedResponse:
+    answer: str
+    confidence: str | None = None
+    notes: str | None = None
+    parse_mode: str = "freeform"
+
+
+@dataclass
 class ItemResult:
     item_id: str
     response: str
+    parsed_answer: str
+    parse_mode: str
     score: float
     score_label: str
     latency_ms: int
@@ -64,6 +77,25 @@ class RunResult:
     items: list[ItemResult]
 
 
+PROMPT_SUFFIX = (
+    'Return strict JSON with keys "answer", "confidence", and optional "notes". '
+    'Use "answer" for the direct final answer only. '
+    'Set "confidence" to "certain" or "uncertain". '
+    'Do not include markdown fences.'
+)
+
+
+def dataset_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def display_path(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def load_items(path: Path) -> list[Item]:
     if not path.exists():
         return []
@@ -75,28 +107,96 @@ def load_items(path: Path) -> list[Item]:
     return rows
 
 
+def normalize_answer(value: str) -> str:
+    text = (value or "").strip().lower()
+    text = re.sub(r"[`*_#]", "", text)
+    text = re.sub(r"\b(hats?|people|person|wearing|is|are|there|visible|total)\b", " ", text)
+    text = re.sub(r"[^a-z0-9\s-]", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
 def matches_expected(response: str, expected: str) -> bool:
-    response_lower = response.lower()
-    expected_lower = expected.lower()
-    if expected_lower in response_lower:
+    response_norm = normalize_answer(response)
+    expected_norm = normalize_answer(expected)
+    if not response_norm or not expected_norm:
+        return False
+    if expected_norm == response_norm:
         return True
-    alias = NUMBER_ALIASES.get(expected_lower)
-    if alias and re.search(rf"\b{re.escape(alias)}\b", response_lower):
+    if re.search(rf"\b{re.escape(expected_norm)}\b", response_norm):
+        return True
+    alias = NUMBER_ALIASES.get(expected_norm)
+    if alias and re.search(rf"\b{re.escape(alias)}\b", response_norm):
         return True
     return False
 
 
-def score_response(response: str, expected: str) -> tuple[float, str]:
+def extract_json_object(text: str) -> dict[str, Any] | None:
+    text = text.strip()
+    if not text:
+        return None
+    try:
+        data = json.loads(text)
+        if isinstance(data, dict):
+            return data
+    except json.JSONDecodeError:
+        pass
+    match = re.search(r"\{.*\}", text, re.DOTALL)
+    if not match:
+        return None
+    try:
+        data = json.loads(match.group(0))
+    except json.JSONDecodeError:
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def extract_candidate_answer(text: str) -> str:
+    lowered = text.lower()
+    patterns = [
+        r"wearing\s+([a-z0-9-]+)\s+hat",
+        r"wearing\s+([a-z0-9-]+)\s+hats",
+        r"is\s+([a-z0-9-]+)\s+hat",
+        r"is\s+wearing\s+([a-z0-9-]+)",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, lowered)
+        if match:
+            return match.group(1)
+    generic = re.search(r"(zero|one|two|three|four|five|six|seven|eight|nine|ten|[0-9]+)", lowered)
+    if generic:
+        return generic.group(1)
+    return text.strip()
+
+
+def parse_model_response(response: str) -> ParsedResponse:
     if response.startswith("[ERROR:"):
-        return 0.0, "incorrect"
+        return ParsedResponse(answer="", parse_mode="error")
+    obj = extract_json_object(response)
+    if obj is not None:
+        answer = str(obj.get("answer", "")).strip()
+        confidence = str(obj.get("confidence", "")).strip().lower() or None
+        notes = str(obj.get("notes", "")).strip() or None
+        return ParsedResponse(answer=answer, confidence=confidence, notes=notes, parse_mode="json")
+    return ParsedResponse(answer=extract_candidate_answer(response), parse_mode="freeform")
+
+
+def score_response(response: str, expected: str) -> tuple[float, str, ParsedResponse]:
+    parsed = parse_model_response(response)
+    if parsed.parse_mode == "error":
+        return 0.0, "incorrect", parsed
+    answer_text = parsed.answer
     response_lower = response.lower()
-    correct = matches_expected(response, expected)
-    hedged = any(keyword in response_lower for keyword in PARTIAL_KEYWORDS)
+    correct = matches_expected(answer_text, expected)
+    hedged = (
+        (parsed.confidence == "uncertain")
+        or any(keyword in response_lower for keyword in PARTIAL_KEYWORDS)
+    )
     if correct and hedged:
-        return 0.5, "partial"
+        return 0.5, "partial", parsed
     if correct:
-        return 1.0, "correct"
-    return 0.0, "incorrect"
+        return 1.0, "correct", parsed
+    return 0.0, "incorrect", parsed
 
 
 class DryRunAdapter:
@@ -192,6 +292,100 @@ class OpenRouterAdapter:
         return ((choices[0].get("message") or {}).get("content")) or ""
 
 
+class OpenAIResponsesAdapter:
+    def __init__(self, model: str, api_key: str, timeout_s: int):
+        self.name = model
+        self.api_key = api_key
+        self.timeout_s = timeout_s
+
+    def query(self, image_path: str, prompt: str) -> str:
+        try:
+            img_bytes = Path(image_path).read_bytes()
+        except OSError as exc:
+            return f"[ERROR: cannot read image {image_path}: {exc}]"
+        mime = mimetypes.guess_type(image_path)[0] or "image/png"
+        data_url = f"data:{mime};base64,{base64.b64encode(img_bytes).decode('utf-8')}"
+        payload = {
+            "model": self.name,
+            "input": [{
+                "role": "user",
+                "content": [
+                    {"type": "input_text", "text": prompt},
+                    {"type": "input_image", "image_url": data_url, "detail": "high"},
+                ],
+            }],
+            "max_output_tokens": 256,
+        }
+        req = urllib.request.Request(
+            "https://api.openai.com/v1/responses",
+            data=json.dumps(payload).encode("utf-8"),
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.api_key}",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=self.timeout_s) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+        except Exception as exc:  # noqa: BLE001
+            return f"[ERROR: {exc}]"
+        text = data.get("output_text")
+        if text:
+            return text
+        output = data.get("output") or []
+        for item in output:
+            for content in item.get("content") or []:
+                if content.get("type") == "output_text" and content.get("text"):
+                    return content["text"]
+        return "[ERROR: empty output in response]"
+
+
+class XAIChatAdapter:
+    def __init__(self, model: str, api_key: str, timeout_s: int):
+        self.name = model
+        self.api_key = api_key
+        self.timeout_s = timeout_s
+
+    def query(self, image_path: str, prompt: str) -> str:
+        try:
+            img_bytes = Path(image_path).read_bytes()
+        except OSError as exc:
+            return f"[ERROR: cannot read image {image_path}: {exc}]"
+        mime = mimetypes.guess_type(image_path)[0] or "image/png"
+        data_url = f"data:{mime};base64,{base64.b64encode(img_bytes).decode('utf-8')}"
+        payload = {
+            "model": self.name,
+            "messages": [{
+                "role": "user",
+                "content": [
+                    {"type": "image_url", "image_url": {"url": data_url, "detail": "high"}},
+                    {"type": "text", "text": prompt},
+                ],
+            }],
+            "stream": False,
+            "max_tokens": 256,
+        }
+        req = urllib.request.Request(
+            "https://api.x.ai/v1/chat/completions",
+            data=json.dumps(payload).encode("utf-8"),
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.api_key}",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=self.timeout_s) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+        except Exception as exc:  # noqa: BLE001
+            return f"[ERROR: {exc}]"
+        choices = data.get("choices") or []
+        if not choices:
+            return "[ERROR: empty choices in response]"
+        return ((choices[0].get("message") or {}).get("content")) or ""
+
+
 def build_adapter(model: str, host: str, think: str, timeout_s: int):
     if model == "dry-run":
         return DryRunAdapter()
@@ -207,7 +401,21 @@ def build_adapter(model: str, host: str, think: str, timeout_s: int):
         if not api_key:
             raise ValueError("OPENROUTER_API_KEY is required for openrouter/<model>")
         return OpenRouterAdapter(model[len("openrouter/"):], api_key, timeout_s)
-    raise ValueError("Only dry-run, ollama/<model>, and openrouter/<model> are supported")
+    if model.startswith("openai/"):
+        api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY is required for openai/<model>")
+        return OpenAIResponsesAdapter(model[len("openai/"):], api_key, timeout_s)
+    if model.startswith("xai/"):
+        api_key = os.environ.get("XAI_API_KEY", "").strip()
+        if not api_key:
+            raise ValueError("XAI_API_KEY is required for xai/<model>")
+        return XAIChatAdapter(model[len("xai/"):], api_key, timeout_s)
+    raise ValueError("Supported prefixes: dry-run, ollama/, openrouter/, openai/, xai/")
+
+
+def build_prompt(item: Item) -> str:
+    return f"{item.prompt}\n\n{PROMPT_SUFFIX}"
 
 
 def evaluate(items: list[Item], adapter) -> RunResult:
@@ -215,13 +423,15 @@ def evaluate(items: list[Item], adapter) -> RunResult:
     for item in items:
         image_path = str((ROOT / item.image_path).resolve()) if not Path(item.image_path).is_absolute() else item.image_path
         t0 = time.monotonic()
-        response = adapter.query(image_path, item.prompt)
+        response = adapter.query(image_path, build_prompt(item))
         latency_ms = int((time.monotonic() - t0) * 1000)
-        score, label = score_response(response, item.expected)
+        score, label, parsed = score_response(response, item.expected)
         results.append(
             ItemResult(
                 item_id=item.id,
-                response=response[:500],
+                response=response[:2000],
+                parsed_answer=parsed.answer,
+                parse_mode=parsed.parse_mode,
                 score=score,
                 score_label=label,
                 latency_ms=latency_ms,
@@ -260,20 +470,33 @@ def main() -> int:
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
-    model = "dry-run" if args.dry_run else args.model
+    if args.dry_run:
+        args.model = "dry-run"
+
     items = load_items(args.dataset)
     if not items:
         print(f"No items found in {args.dataset}", file=sys.stderr)
         return 1
 
-    adapter = build_adapter(model, args.ollama_host, args.ollama_think, args.ollama_timeout_s)
+    try:
+        adapter = build_adapter(args.model, args.ollama_host, args.ollama_think, args.ollama_timeout_s)
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+
     result = evaluate(items, adapter)
-    payload = json.dumps(asdict(result), indent=2) + "\n"
-    output = args.output
-    if output:
-        output.write_text(payload, encoding="utf-8")
+    payload = {
+        **asdict(result),
+        "dataset": display_path(args.dataset),
+        "dataset_sha256": dataset_sha256(args.dataset),
+        "run_at": datetime.now(timezone.utc).isoformat(),
+        "prompt_protocol": "structured-json-v1",
+    }
+    text = json.dumps(payload, indent=2) + "\n"
+    if args.output:
+        args.output.write_text(text, encoding="utf-8")
     else:
-        sys.stdout.write(payload)
+        sys.stdout.write(text)
     return 0
 
 

@@ -1,0 +1,123 @@
+{
+  "dataset": "dataset/items.jsonl",
+  "dataset_sha256": "a7143476d85df79b0f68085f22c417dbfc15f0ecae5e86c10e1464190e373e59",
+  "run_at": "2026-05-26T11:38:19.004049+00:00",
+  "prompt_protocol": "structured-json-v1",
+  "results": [
+    {
+      "model": "gpt-4.1",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.0,
+      "latency_mean_ms": 2129,
+      "latency_p50_ms": 2129,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "{\n  \"answer\": \"one\",\n  \"confidence\": \"certain\",\n  \"notes\": \"The person is wearing one hat and holding another hat in their hand.\"\n}",
+          "parsed_answer": "one",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 2129
+        }
+      ],
+      "model_ref": "openai/gpt-4.1"
+    },
+    {
+      "model": "gpt-4o",
+      "total_items": 1,
+      "correct": 1,
+      "partial": 0,
+      "incorrect": 0,
+      "accuracy": 1.0,
+      "partial_credit_score": 1.0,
+      "latency_mean_ms": 2852,
+      "latency_p50_ms": 2852,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "{\"answer\": \"two\", \"confidence\": \"certain\", \"notes\": \"The person is wearing one hat and holding another in their hand.\"}",
+          "parsed_answer": "two",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 2852
+        }
+      ],
+      "model_ref": "openai/gpt-4o"
+    },
+    {
+      "model": "gpt-4o-mini",
+      "total_items": 1,
+      "correct": 1,
+      "partial": 0,
+      "incorrect": 0,
+      "accuracy": 1.0,
+      "partial_credit_score": 1.0,
+      "latency_mean_ms": 2457,
+      "latency_p50_ms": 2457,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "{\n  \"answer\": \"2\",\n  \"confidence\": \"certain\"\n}",
+          "parsed_answer": "2",
+          "parse_mode": "json",
+          "score": 1.0,
+          "score_label": "correct",
+          "latency_ms": 2457
+        }
+      ],
+      "model_ref": "openai/gpt-4o-mini"
+    },
+    {
+      "model": "gpt-5",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.0,
+      "latency_mean_ms": 3941,
+      "latency_p50_ms": 3941,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "[ERROR: empty output in response]",
+          "parsed_answer": "",
+          "parse_mode": "error",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 3941
+        }
+      ],
+      "model_ref": "openai/gpt-5"
+    },
+    {
+      "model": "grok-4.3",
+      "total_items": 1,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 1,
+      "accuracy": 0.0,
+      "partial_credit_score": 0.0,
+      "latency_mean_ms": 8587,
+      "latency_p50_ms": 8587,
+      "items": [
+        {
+          "item_id": "SB-001",
+          "response": "{\n  \"answer\": \"1\",\n  \"confidence\": \"certain\",\n  \"notes\": \"One cowboy hat is on the person's head; the second hat is held in the raised hand and thus not worn.\"\n}",
+          "parsed_answer": "1",
+          "parse_mode": "json",
+          "score": 0.0,
+          "score_label": "incorrect",
+          "latency_ms": 8587
+        }
+      ],
+      "model_ref": "xai/grok-4.3"
+    }
+  ]
+}
