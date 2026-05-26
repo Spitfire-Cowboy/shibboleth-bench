@@ -1,6 +1,6 @@
 # shibboleth-bench
 
-A focused benchmark for one narrow question: do multimodal models catch obvious visual anomalies that a human would notice immediately?
+A benchmark for one narrow question: how do multimodal models answer this dataset of visual anomaly items?
 
 [![CI](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml)
 [![Pages](https://img.shields.io/badge/pages-live-7d3f1d)](https://spitfire-cowboy.github.io/shibboleth-bench/)
@@ -9,9 +9,9 @@ A focused benchmark for one narrow question: do multimodal models catch obvious 
 
 ## 🔎 What it asks
 
-> Does this model miss obvious image-generation mistakes or discrete-object anomalies?
+> How does this model answer these anomaly and discrete-object items?
 
-Shibboleth is a narrow benchmark, not a full evaluation stack. It compares models on a small set of crisp, high-signal probes before deeper testing.
+Shibboleth is a narrow benchmark, not a full evaluation stack. It compares models on a small set of benchmark items before deeper testing.
 
 ## 🌐 Public surface
 
@@ -51,7 +51,7 @@ Artifacts:
 
 ## 🖼️ Current dataset
 
-The benchmark currently includes fourteen high-signal probes:
+The current dataset includes fourteen benchmark items:
 
 - `SB-001` — two-hat count
 - `SB-002` — mirror mismatch
@@ -173,7 +173,7 @@ The grader still falls back to freeform parsing when needed, but structured outp
 
 This repo is intentionally small, which means the current results have real limits:
 
-- ten items is still a small benchmark
+- fourteen items is still a small benchmark
 - most items are synthetic probes, not naturalistic photographs
 - live model behavior changes over time
 - passing Shibboleth does **not** imply general multimodal competence
@@ -188,11 +188,11 @@ The checked-in Claude snapshot currently covers only the original 10-item corpus
 - `anthropic/claude-sonnet-4-6` — **10 / 10**
 - `anthropic/claude-haiku-4-5` — **9 / 10**
 
-That snapshot was run via Cowork / Claude Agent tooling rather than the `eval.py` harness, so it is best read as a compatibility comparison rather than a perfect apples-to-apples harness run.
+That snapshot was run via Cowork / Claude Agent tooling rather than the `eval.py` harness, so it is labeled separately from harness-run snapshots.
 
 ## 🛣️ Next steps
 
-High-value future additions include:
+Candidate future additions include:
 - more naturalistic mirror and glossy-surface probes
 - more hand and anatomy edge cases
 - signage and label reading variants

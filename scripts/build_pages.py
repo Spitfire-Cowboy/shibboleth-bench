@@ -140,9 +140,9 @@ def main() -> None:
   <meta charset=\"utf-8\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
   <title>Shibboleth Bench — Visual Anomaly Benchmark for Multimodal Models</title>
-  <meta name=\"description\" content=\"Benchmark for testing how multimodal models handle clear visual anomalies.\">
+  <meta name=\"description\" content=\"Static site for the Shibboleth benchmark dataset and checked-in result snapshots.\">
   <meta property=\"og:title\" content=\"Shibboleth Bench\">
-  <meta property=\"og:description\" content=\"A focused benchmark: do multimodal models catch obvious visual anomalies?\">
+  <meta property=\"og:description\" content=\"Dataset, benchmark items, and checked-in result snapshots for Shibboleth Bench.\">
   <meta property=\"og:image\" content=\"https://spitfire-cowboy.github.io/shibboleth-bench/images/two-hat-logo.png\">
   <meta property=\"og:url\" content=\"https://spitfire-cowboy.github.io/shibboleth-bench/\">
   <meta name=\"twitter:card\" content=\"summary_large_image\">
@@ -153,8 +153,8 @@ def main() -> None:
   <main class=\"wrapper\">
     <section class=\"hero\">
       <div class=\"kicker\">Visual anomaly benchmark · {len(dataset)} items · May 2026</div>
-      <h1>Testing multimodal models on clear visual anomalies</h1>
-      <p class=\"lede\">A focused benchmark for one narrow question: does a model miss obvious image-generation mistakes or discrete-object anomalies?</p>
+      <h1>Checked-in results for a small visual anomaly benchmark</h1>
+      <p class=\"lede\">This site publishes the current dataset, benchmark items, and checked-in model snapshots for Shibboleth Bench.</p>
       <div class=\"badges\">
         <span class=\"badge\">{len(dataset)} benchmark items</span>
         <span class=\"badge\">Apache 2.0</span>
@@ -175,11 +175,11 @@ def main() -> None:
     <section class=\"section grid cols-2\">
       <article class=\"card\">
         <h3>What this benchmark is</h3>
-        <p>A small set of high-signal probes: mirror mismatches, reflections, malformed text, finger counts, attachment failures, repeated objects, and lighting contradictions.</p>
+        <p>A 14-item benchmark covering mirror mismatches, reflections, malformed text, finger counts, attachment failures, repeated objects, and lighting contradictions.</p>
       </article>
       <article class=\"card\">
         <h3>What this benchmark is not</h3>
-        <p>Not a general measure of multimodal competence. Passing Shibboleth does not imply broad reliability. Failing it means the model misses simple anomalies it should likely catch.</p>
+        <p>Not a general multimodal evaluation. These pages summarize checked-in results for this dataset only.</p>
       </article>
     </section>
 
@@ -204,7 +204,7 @@ def main() -> None:
       </div>
     </section>
 
-    <footer class=\"footer\">Shibboleth is a focused benchmark for visual anomalies, not a claim about overall model quality. · <a href=\"https://github.com/Spitfire-Cowboy/shibboleth-bench\">GitHub</a> · <a href=\"https://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0</a></footer>
+    <footer class=\"footer\">Repository, dataset, and checked-in result snapshots. · <a href=\"https://github.com/Spitfire-Cowboy/shibboleth-bench\">GitHub</a> · <a href=\"https://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0</a></footer>
   </main>
 </body>
 </html>

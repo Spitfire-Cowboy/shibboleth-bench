@@ -60,33 +60,8 @@ Prompt protocol: structured-json-v1
 | SB-009 | continuity | no | no | ✓ | certain | Mug handle floating separately, not attached. |
 | SB-010 | transparency | three | three | ✓ | certain | 3 transparent glasses visible. |
 
-## Analysis
+## Notes on scope
 
-**Opus and Sonnet scored a clean 10/10.** Both answered with `"confidence": "certain"` on every item. Neither hedged on the harder probes (shadow contradiction, transparent glass counting, or the SB-001 two-hat count). Response reasoning was correct and specific.
-
-**Haiku scored 9/10, missing SB-001.** The miss is interpretive rather than perceptual: Haiku saw the figure correctly (one hat on the head, one hat held in the raised hand) but decided the held hat was "not worn" and answered `"one"`. This reflects a reasonable ambiguity in the prompt — "how many hats is the person wearing?" could legitimately exclude a held hat — but the other models and the canonical benchmark answer count the held hat. The prompt for SB-001 may benefit from rewording if Haiku's interpretation keeps recurring.
-
-**Haiku over-read the dataset.** Haiku continued reading image files beyond the 10-item `items.jsonl` manifest, encountering files outside the official dataset and scoring them as if they were benchmark items. The `eval.py` harness would prevent this (it only iterates over loaded `Item` objects), but it is useful behaviour to know about when running models via agent tooling rather than the harness.
-
-**All three models returned structured JSON on every item.** No freeform fallback parsing was needed. All confidence values were `"certain"` across all three models.
-
-## Notes on dataset scope
-
-The existing `results/livefire-may-2026.json` was run against 14 items (SB-001 – SB-014), not the 10-item set currently in `dataset/items.jsonl`. This Claude snapshot covers only the 10-item set. If the extended 14-item dataset is restored to `items.jsonl`, re-run this snapshot for a comparable score.
-
-## Comparison with existing May 2026 snapshot (10-item subset)
-
-Cross-referencing the livefire JSON for SB-001 – SB-010 only:
-
-| Model | Score (10-item) |
-| --- | ---: |
-| `openai/gpt-4o` | 10 / 10 |
-| `anthropic/claude-opus-4-6` | 10 / 10 |
-| `anthropic/claude-sonnet-4-6` | 10 / 10 |
-| `openai/gpt-4.1` | 9 / 10 |
-| `openai/gpt-4o-mini` | 9 / 10 |
-| `xai/grok-4.3` | 9 / 10 |
-| `anthropic/claude-haiku-4-5` | 9 / 10 |
-| `openai/gpt-5` | 7 / 10 |
-
-This snapshot should not be read as a broad multimodal ranking. Shibboleth is a narrow anomaly-focused benchmark with a small synthetic dataset.
+- This snapshot covers SB-001 through SB-010 only.
+- The checked-in May 2026 harness snapshot covers SB-001 through SB-014.
+- This file records an agent-run Claude snapshot and is separate from harness-run snapshots in `results/livefire-*.json`.
