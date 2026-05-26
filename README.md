@@ -1,38 +1,53 @@
 # shibboleth-bench
 
-A small Apache 2.0 benchmark harness for **visual anomaly screening** in multimodal models.
+A small Apache 2.0 benchmark for **visual anomaly screening** in multimodal models.
 
 [![CI](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml)
+[![Pages](https://img.shields.io/badge/pages-live-7d3f1d)](https://spitfire-cowboy.github.io/shibboleth-bench/)
 
-Shibboleth is meant to answer a narrow question quickly:
+## 🔎 What it asks
 
 > Does this model miss obvious image-generation mistakes or discrete-object anomalies?
 
-It is a **screening benchmark**, not a full model evaluation stack.
+Shibboleth is a **screening benchmark**, not a full evaluation stack.
+It is meant to cheaply filter out weak multimodal candidates before deeper testing.
 
-## Why this exists
+## 🌐 Public surface
 
-Many multimodal models look impressive in broad demos while still failing on narrow, high-signal visual anomalies:
-- counting discrete objects incorrectly
-- misreading reflections or mirrored scenes
-- missing malformed text, attachment failures, or lighting contradictions
-- giving confident answers to obviously wrong interpretations
+- **Repo:** https://github.com/Spitfire-Cowboy/shibboleth-bench
+- **Leaderboard + gallery:** https://spitfire-cowboy.github.io/shibboleth-bench/
+- **Latest JSON snapshot:** `results/livefire-may-2026.json`
+- **Latest CSV snapshot:** `results/livefire-may-2026.csv`
 
-The goal here is to filter out weak candidates before spending time on deeper evals.
+## ✅ Current status
 
-## Current status
-
-- public benchmark harness: **yes**
-- structured-answer grading: **yes**
-- direct vendor livefire support: **yes**
+- **public-ready benchmark harness:** yes
+- **checked-in dataset:** 10 items
+- **structured-answer grading:** yes
+- **direct vendor livefire support:** yes
   - Ollama
   - OpenRouter
   - OpenAI
   - xAI
-- checked-in benchmark dataset: **10 items**
-- current benchmark scope: **prototype / screening**, not a broad leaderboard
+- **GitHub Pages leaderboard:** live
+- **scope:** narrow anomaly screening, not a broad leaderboard
 
-## Current dataset
+## 🧪 Current May 2026 snapshot
+
+| Model | Score | Misses |
+| --- | ---: | --- |
+| `openai/gpt-4o` | 10 / 10 | none |
+| `openai/gpt-4.1` | 9 / 10 | `SB-001` |
+| `openai/gpt-4o-mini` | 9 / 10 | `SB-001` |
+| `xai/grok-4.3` | 9 / 10 | `SB-001` |
+| `openai/gpt-5` | 7 / 10 | `SB-001`, `SB-005`, `SB-008` |
+
+Artifacts:
+- `results/livefire-may-2026.json`
+- `results/livefire-may-2026.md`
+- `results/livefire-may-2026.csv`
+
+## 🖼️ Current dataset
 
 The benchmark currently includes ten high-signal probes:
 
@@ -54,15 +69,15 @@ See:
 - `dataset/PROVENANCE.md`
 - `scripts/generate_synthetic_assets.py`
 
-## Quick start
+## ⚡ Quick start
 
-Dry run:
+### Dry run
 
 ```bash
 python3 eval.py --dry-run
 ```
 
-Run against a local Ollama multimodal model:
+### Run against a local Ollama model
 
 ```bash
 python3 eval.py \
@@ -70,21 +85,21 @@ python3 eval.py \
   --ollama-host http://127.0.0.1:11434
 ```
 
-Run against OpenAI:
+### Run against OpenAI
 
 ```bash
 export OPENAI_API_KEY=...
 python3 eval.py --model openai/gpt-4.1
 ```
 
-Run against xAI:
+### Run against xAI
 
 ```bash
 export XAI_API_KEY=...
 python3 eval.py --model xai/grok-4.3
 ```
 
-Run a May 2026 vendor snapshot:
+### Run the May 2026 vendor snapshot
 
 ```bash
 export OPENAI_API_KEY=...
@@ -95,7 +110,7 @@ python3 run_matrix.py \
   --output results/livefire-may-2026.json
 ```
 
-Run against OpenRouter free vision models:
+### Run against OpenRouter free vision models
 
 ```bash
 export OPENROUTER_API_KEY=...
@@ -104,7 +119,7 @@ python3 run_matrix.py \
   --output results/openrouter-free-vision.json
 ```
 
-## Output contract
+## 🧱 Output contract
 
 Each run records:
 - exact model ref
@@ -117,9 +132,9 @@ Each run records:
 - grading label
 - latency stats
 
-This makes results more reproducible and easier to audit.
+This keeps results reproducible and auditable.
 
-## Grading model
+## 🧮 Grading model
 
 The harness asks models to return strict JSON:
 
@@ -127,14 +142,14 @@ The harness asks models to return strict JSON:
 {"answer":"two","confidence":"certain","notes":"..."}
 ```
 
-Why:
+Why this shape:
 - freeform answers are fragile to grade
 - substring matching creates false positives
 - contradictory answers should not accidentally pass
 
-The grader still falls back to freeform parsing when needed, but the preferred path is structured output.
+The grader still falls back to freeform parsing when needed, but structured output is the preferred path.
 
-## Current repo layout
+## 📁 Repo layout
 
 - `dataset/items.jsonl` — benchmark item manifest
 - `dataset/images/` — benchmark images
@@ -146,68 +161,31 @@ The grader still falls back to freeform parsing when needed, but the preferred p
 - `results/` — checked-in benchmark snapshots
 - `site/` — generated GitHub Pages output
 - `tests/` — harness tests
-- `docs/edge-cases.md` — researched expansion targets for future benchmark items
+- `docs/edge-cases.md` — researched expansion targets
 
-## Latest livefire snapshot
+## 📉 Limitations
 
-See:
-- `results/livefire-may-2026.json`
-- `results/livefire-may-2026.md`
-- `results/livefire-may-2026.csv`
-
-Current May 2026 snapshot highlights:
-- `openai/gpt-4o` — **10/10**
-- `openai/gpt-4.1` — **9/10**
-- `openai/gpt-4o-mini` — **9/10**
-- `xai/grok-4.3` — **9/10**
-- `openai/gpt-5` — **7/10**
-
-| Model | Score | Misses |
-| --- | ---: | --- |
-| `openai/gpt-4o` | 10 / 10 | none |
-| `openai/gpt-4.1` | 9 / 10 | `SB-001` |
-| `openai/gpt-4o-mini` | 9 / 10 | `SB-001` |
-| `xai/grok-4.3` | 9 / 10 | `SB-001` |
-| `openai/gpt-5` | 7 / 10 | `SB-001`, `SB-005`, `SB-008` |
-
-## Benchmark limitations
-
-This repo is intentionally small, and that means the current results have real limits:
+This repo is intentionally small, which means the current results have real limits:
 
 - ten items is still a small benchmark
 - most items are synthetic probes, not naturalistic photographs
 - live model behavior changes over time
-- passing this benchmark does **not** imply general multimodal competence
+- passing Shibboleth does **not** imply general multimodal competence
 
-Treat Shibboleth as a **cheap screen**, not a final verdict.
+Treat it as a **cheap screen**, not a final verdict.
 
-## Expansion plan
+## 🛣️ Next steps
 
-The next important step is still **dataset breadth**, not framework complexity.
-
-High-value future items include:
-- more mirror and glossy-surface probes
+High-value future additions include:
+- more naturalistic mirror and glossy-surface probes
 - more hand and anatomy edge cases
 - signage and label reading variants
 - accessory symmetry and attachment failures
-- repeated-object counting scenes
-- shadow / lighting contradictions in more natural settings
+- repeated-object counting scenes with more visual noise
+- lighting contradictions in more realistic scenes
 
-See `docs/edge-cases.md` for the researched list.
+See `docs/edge-cases.md` for the fuller research list.
 
-## License
+## 📄 License
 
 Apache 2.0.
-
-## GitHub Pages
-
-The repo includes a static GitHub Pages site that publishes:
-- the current leaderboard
-- the benchmark item gallery
-- the checked-in May 2026 results artifacts
-
-Build it locally with:
-
-```bash
-python3 scripts/build_pages.py
-```
