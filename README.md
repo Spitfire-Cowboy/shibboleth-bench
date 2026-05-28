@@ -3,22 +3,34 @@
 A small benchmark for one narrow question: how do multimodal models answer this dataset of visual anomaly items?
 
 [![CI](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/Spitfire-Cowboy/shibboleth-bench/actions/workflows/ci.yml)
-[![Pages](https://img.shields.io/badge/pages-live-7d3f1d)](https://shibboleth.spitfirecowboy.com/)
+[![Pages](https://img.shields.io/badge/site-live-7d3f1d)](https://shibboleth.spitfirecowboy.com/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-0f766e)](LICENSE)
 
 <p>
   <a href="https://shibboleth.spitfirecowboy.com/">
-    <img src="dataset/images/two-hat-logo.png" alt="Two-hat cowboy benchmark image" width="420">
+    <img src="dataset/images/two-hat-logo.png" alt="Two-hat cowboy benchmark image" width="320">
   </a>
 </p>
 
-## What it is
+<p>
+  <a href="https://shibboleth.spitfirecowboy.com/">Site</a> ·
+  <a href="#current-snapshots">Snapshots</a> ·
+  <a href="#dataset-and-method">Dataset</a> ·
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#limits">Limits</a>
+</p>
+
+> [!IMPORTANT]
+> This is a small, checked-in benchmark corpus. Treat it as a narrow visual anomaly probe, not a general model ranking.
+
+## ✨ What it is
 
 - **Repo:** https://github.com/Spitfire-Cowboy/shibboleth-bench
 - **Benchmark site:** https://shibboleth.spitfirecowboy.com/
 - **Dataset:** 14 benchmark items in `dataset/items.jsonl`
 - **Purpose:** compare checked-in model results on a small visual anomaly dataset
 
-## Current snapshots
+## 📊 Current snapshots
 
 ### Harness snapshot — 14 items
 
@@ -64,19 +76,11 @@ Artifacts:
 - `results/claude-may-2026.md`
 - `results/claude-may-2026.json.ots`
 
-## Quick start
+## ⚡ Quick start
 
 ```bash
 python3 eval.py --dry-run
 ```
-
-## Conductor workspaces
-
-This repo now ships a small shared Conductor config:
-
-- `conductor.json` creates a local virtualenv and installs `pytest` for workspace checks.
-- The run script rebuilds the static site and serves `site/` on `CONDUCTOR_PORT`.
-- No Spotlight setup is needed; this repo runs cleanly from ordinary isolated workspaces.
 
 ```bash
 export OPENAI_API_KEY=...
@@ -87,7 +91,15 @@ python3 run_matrix.py \
   --output results/livefire-may-2026.json
 ```
 
-## Dataset and method
+## 🧰 Conductor workspaces
+
+This repo ships a small shared Conductor config:
+
+- `conductor.json` creates a local virtualenv and installs `pytest` for workspace checks.
+- The run script rebuilds the static site and serves `site/` on `CONDUCTOR_PORT`.
+- No Spotlight setup is needed; this repo runs cleanly from ordinary isolated workspaces.
+
+## 🧪 Dataset and method
 
 - dataset manifest: `dataset/items.jsonl`
 - images: `dataset/images/`
@@ -98,13 +110,13 @@ python3 run_matrix.py \
 
 The harness records the model ref, dataset SHA, timestamp, prompt protocol, raw response, parsed answer, and grading label.
 
-## Limits
+## ⚠️ Limits
 
 - 14 items is still a small benchmark
 - most items are synthetic probes
 - model behavior changes over time
 - these snapshots apply to this dataset only
 
-## License
+## 📄 License
 
 Apache 2.0.
