@@ -57,6 +57,10 @@ h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.05; margin: 12px 0 14
 .badges, .jump-links { display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 0; }
 .badge, .jump-links a { border:1px solid var(--line); background: var(--card); border-radius:999px; padding:8px 12px; font-size:14px; text-decoration:none; }
 .jump-links { margin-top: 12px; }
+.hero-art { margin: 18px 0 0; }
+.hero-art img { width: min(360px, 100%); display:block; border-radius: 16px; border:1px solid var(--line); background:#fff; }
+.callout { margin-top: 18px; background: var(--accent-soft); border: 1px solid #dec3ab; border-radius: 18px; padding: 14px 16px; max-width: 760px; }
+.callout strong { color: var(--accent); }
 .section { margin-top: 34px; }
 .section h2 { font-size: 1.45rem; margin: 0 0 12px; }
 .grid { display:grid; gap:16px; }
@@ -311,16 +315,18 @@ def main() -> None:
         <a href="#items">All items</a>
         <a href="#artifacts">Artifacts</a>
       </nav>
+      <p class="hero-art"><a href="images/two-hat-logo.png"><img src="images/two-hat-logo.png" alt="Two-hat cowboy benchmark image"></a></p>
+      <div class="callout"><strong>Scope:</strong> this is a small checked-in corpus with checked-in result snapshots. It is useful for narrow anomaly probes, not for broad multimodal ranking claims.</div>
     </section>
 
     <section class="section grid cols-3">
-      <article class="card"><h3>What it is</h3><p>A small benchmark for counting errors, mirror/reflection mismatches, malformed text, attachment failures, and other visible anomalies.</p></article>
-      <article class="card"><h3>What it is not</h3><p>Not a general multimodal score. Every claim here is only about this checked-in dataset and these checked-in snapshots.</p></article>
-      <article class="card"><h3>How to read it</h3><p>Start with the snapshot tables. Then use the hardest-items table. Open per-item details only when you need the model-by-model rows.</p></article>
+      <article class="card"><h3>✨ What it is</h3><p>A small benchmark for counting errors, mirror/reflection mismatches, malformed text, attachment failures, and other visible anomalies.</p></article>
+      <article class="card"><h3>⚠️ What it is not</h3><p>Not a general multimodal score. Every claim here is only about this checked-in dataset and these checked-in snapshots.</p></article>
+      <article class="card"><h3>🧭 How to read it</h3><p>Start with the snapshot tables. Then use the hardest-items table. Open per-item details only when you need the model-by-model rows.</p></article>
     </section>
 
     <section class="section" id="results">
-      <h2>Current snapshots</h2>
+      <h2>📊 Current snapshots</h2>
       <div class="grid cols-2">
         <article>
           <div class="table-wrap">
@@ -342,7 +348,7 @@ def main() -> None:
     </section>
 
     <section class="section" id="hardest">
-      <h2>Where models struggled most</h2>
+      <h2>🔥 Where models struggled most</h2>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Item</th><th>Prompt</th><th>Correct rows</th><th>Misses</th></tr></thead>
@@ -352,12 +358,12 @@ def main() -> None:
     </section>
 
     <section class="section grid cols-2">
-      <article class="card"><h3>Method</h3><p>Models answer with strict JSON. Raw responses, parsed answers, and grader outcomes are all preserved in the checked-in snapshots.</p></article>
-      <article class="card"><h3>Dataset shape</h3><p>Nine items are self-authored synthetic probes. Five are photographic derivatives built from public-domain source photos.</p></article>
+      <article class="card"><h3>🧪 Method</h3><p>Models answer with strict JSON. Raw responses, parsed answers, and grader outcomes are all preserved in the checked-in snapshots.</p></article>
+      <article class="card"><h3>🗂️ Dataset shape</h3><p>Nine items are self-authored synthetic probes. Five are photographic derivatives built from public-domain source photos.</p></article>
     </section>
 
     <section class="section" id="items">
-      <h2>Full corpus index</h2>
+      <h2>🖼️ Full corpus index</h2>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Item</th><th>Type</th><th>Prompt</th><th>Misses</th><th>Links</th></tr></thead>
@@ -371,7 +377,7 @@ def main() -> None:
     </section>
 
     <section class="section" id="artifacts">
-      <h2>Artifacts</h2>
+      <h2>📦 Artifacts</h2>
       <div class="grid cols-2">
         <article class="card"><h3>Machine-readable snapshots</h3>{artifact_links()}</article>
         <article class="card"><h3>Repository</h3><p><a href="https://github.com/Spitfire-Cowboy/shibboleth-bench">View on GitHub</a></p></article>
